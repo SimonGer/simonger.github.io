@@ -1,0 +1,1248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>PlanT 2.0 Project Page</title>
+  <meta name="description" content="PlanT 2.0 is a lightweight, object-centric planning transformer for CARLA that enables controlled analysis of failure modes while achieving strong closed-loop performance on CARLA Leaderboard 2.0.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@8..144,400;8..144,500;8..144,600&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #f6f1e8;
+      --ink: #1b1815;
+      --muted: #5e5852;
+      --accent: #0b7a6f;
+      --accent-strong: #0a5f56;
+      --accent-warm: #e07a5f;
+      --card: #ffffff;
+      --line: #e6ded2;
+      --shadow: 0 16px 40px rgba(27, 24, 21, 0.12);
+      --shadow-soft: 0 12px 28px rgba(27, 24, 21, 0.08);
+      --radius: 22px;
+      --radius-lg: 28px;
+      --text-base: 1rem;
+      --text-sm: 0.92rem;
+      --text-xs: 0.78rem;
+      --text-lg: 1.12rem;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      font-family: "Newsreader", serif;
+      font-size: 17px;
+      line-height: 1.7;
+      background:
+        radial-gradient(circle at 15% 15%, rgba(224, 122, 95, 0.15), transparent 45%),
+        radial-gradient(circle at 85% 10%, rgba(11, 122, 111, 0.12), transparent 40%),
+        linear-gradient(180deg, #fbf7f0 0%, #f6f1e8 55%, #f2ece2 100%);
+    }
+
+    a {
+      color: var(--accent-strong);
+      text-decoration: none;
+    }
+
+    a:hover {
+      color: var(--accent-warm);
+    }
+
+    .page {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 32px 24px 88px;
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 48px;
+      align-items: center;
+      padding: 64px 0 64px;
+    }
+
+    .eyebrow {
+      font-family: "Space Grotesk", sans-serif;
+      font-size: var(--text-xs);
+      text-transform: uppercase;
+      letter-spacing: 0.3em;
+      color: var(--muted);
+      margin: 0 0 12px;
+    }
+
+    h1 {
+      font-family: "Space Grotesk", sans-serif;
+      font-size: clamp(2.4rem, 3vw + 1.5rem, 3.8rem);
+      margin: 0 0 16px;
+      line-height: 1.05;
+    }
+
+    .subhead {
+      font-size: var(--text-lg);
+      color: var(--muted);
+      line-height: 1.6;
+      margin: 0 0 16px;
+    }
+
+    .chip-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .chip {
+      padding: 6px 12px;
+      border-radius: 999px;
+      font-family: "Space Grotesk", sans-serif;
+      font-size: var(--text-sm);
+      background: rgba(11, 122, 111, 0.12);
+      color: var(--accent-strong);
+      border: 1px solid rgba(11, 122, 111, 0.2);
+      width: 195px;
+      text-align: center;
+    }
+
+    .authors {
+      font-family: "Space Grotesk", sans-serif;
+      margin-bottom: 20px;
+      line-height: 1.6;
+      font-size: var(--text-base);
+    }
+
+    .authors span {
+      display: block;
+      color: var(--muted);
+      font-size: var(--text-sm);
+    }
+    .authors a {
+      color: var(--ink);
+    }
+    .authors a:hover {
+      color: var(--accent-warm);
+    }
+
+    .button-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 12px;
+    }
+
+    .stats-showcase {
+      padding-top: 64px;
+    }
+
+    .stats-showcase .stats {
+      margin-top: 20px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      justify-content: flex-start;
+    }
+
+    .stats-showcase .stat strong {
+      color: var(--accent);
+      font-size: 1.1rem;
+      text-transform: none;
+      letter-spacing: 0.02em;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .stats-showcase .stat .stat-value {
+      font-size: 1.5rem;
+      font-weight: 600;
+    }
+
+    .stats-showcase .stat {
+      width: auto;
+      max-width: 100%;
+      padding: 16px 24px;
+    }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 12px 20px;
+      min-height: 44px;
+      border-radius: 999px;
+      font-family: "Space Grotesk", sans-serif;
+      font-weight: 600;
+      font-size: var(--text-sm);
+      border: 1px solid transparent;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .button.primary {
+      background: var(--accent);
+      color: white;
+      box-shadow: 0 12px 24px rgba(11, 122, 111, 0.24);
+    }
+
+    .button.secondary {
+      background: white;
+      border: 1px solid var(--line);
+      color: var(--ink);
+    }
+
+    .button:hover {
+      transform: translateY(-2px);
+    }
+
+    .hero-media {
+      background: white;
+      padding: 16px;
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow);
+    }
+
+    .hero-media img {
+      width: 100%;
+      display: block;
+    }
+
+    .scenario-slider {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .scenario-stage {
+      position: relative;
+      width: 100%;
+      border-radius: 16px;
+      overflow: hidden;
+      background: #f2ede4;
+    }
+
+    .scenario-stage img {
+      width: 100%;
+      display: block;
+    }
+
+    .scenario-backdrop {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      pointer-events: none;
+      display: none;
+      z-index: 1;
+    }
+
+    .scenario-overlay {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      transform-origin: 50% 50%;
+      pointer-events: none;
+      z-index: 2;
+    }
+
+    .scenario-controls {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      font-family: "Space Grotesk", sans-serif;
+      font-size: var(--text-sm);
+      color: var(--muted);
+    }
+
+    .scenario-tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .scenario-tab {
+      border: 2px solid var(--line);
+      background: linear-gradient(135deg, #ffffff 0%, #f7f3eb 100%);
+      color: var(--ink);
+      border-radius: 999px;
+      padding: 10px 18px;
+      font-family: "Space Grotesk", sans-serif;
+      font-size: var(--text-sm);
+      letter-spacing: 0.04em;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: none;
+      transition: transform 0.2s ease;
+    }
+
+    .scenario-tab:hover {
+      transform: translateY(-1px);
+      box-shadow: none;
+    }
+
+    .scenario-tab.is-active {
+      border-color: rgba(11, 122, 111, 0.6);
+      color: white;
+      background: linear-gradient(135deg, var(--accent) 0%, var(--accent-strong) 100%);
+      box-shadow: none;
+    }
+
+    .scenario-label span {
+      color: var(--accent-strong);
+      font-weight: 600;
+    }
+
+    .scenario-label [data-scenario-label] {
+      padding: 0 0.35ch;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .scenario-range {
+      width: 100%;
+      accent-color: var(--accent);
+    }
+
+    .scenario-note {
+      border-radius: 16px;
+      border: 1px solid rgba(11, 122, 111, 0.35);
+      background: rgba(11, 122, 111, 0.16);
+      padding: 14px 16px;
+      display: grid;
+      gap: 6px;
+    }
+
+    .scenario-note-title {
+      font-family: "Space Grotesk", sans-serif;
+      font-size: var(--text-xs);
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      color: var(--accent-strong);
+      font-weight: 600;
+    }
+
+    .scenario-note .caption {
+      margin: 0;
+    }
+
+    .caption {
+      font-size: var(--text-sm);
+      color: var(--muted);
+      margin-top: 10px;
+    }
+
+    .section {
+      padding: 32px 0;
+    }
+
+    .section h2 {
+      font-family: "Space Grotesk", sans-serif;
+      font-size: clamp(1.7rem, 2vw + 1rem, 2.3rem);
+      margin: 0 0 12px;
+    }
+
+    .section p {
+      color: var(--muted);
+      font-size: var(--text-base);
+      line-height: 1.75;
+    }
+
+    #abstract p {
+      font-size: var(--text-lg);
+      max-width: 82ch;
+      margin: 0;
+      /* text-align: justify;
+      text-justify: inter-word;
+      hyphens: auto; */
+    }
+
+    .grid {
+      display: grid;
+      gap: 20px;
+    }
+
+    .card,
+    .table-card {
+      font-family: "Space Grotesk", sans-serif;
+    }
+
+    .grid.cols-2 {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    #method .grid.cols-2 {
+      align-items: center;
+    }
+
+    .grid.cols-3 {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .card {
+      background: var(--card);
+      border-radius: var(--radius);
+      padding: 24px;
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow-soft);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .card h3 {
+      font-family: "Space Grotesk", sans-serif;
+      margin: 0 0 12px;
+      color: var(--accent);
+    }
+
+    .card p {
+      margin: 0;
+      color: var(--muted);
+      font-size: var(--text-base);
+      line-height: 1.6;
+    }
+
+    #insights {
+      padding: 32px 0;
+    }
+
+    .insight-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 16px;
+      margin-top: 16px;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 16px;
+      margin-top: 24px;
+    }
+
+    .stats--compact {
+      margin-top: 0;
+    }
+
+    .stats-section {
+      padding: 24px 0 36px;
+    }
+
+    .stat {
+      background: rgba(255, 255, 255, 0.9);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 16px 20px;
+      font-family: "Space Grotesk", sans-serif;
+      font-size: var(--text-sm);
+      width: 100%;
+    }
+
+    .stat strong {
+      display: block;
+      font-size: 1.2rem;
+      color: var(--accent);
+      margin-bottom: 4px;
+    }
+
+    .stat .stat-value {
+      font-size: 1.35rem;
+      font-weight: 600;
+      margin-top: 8px;
+      display: block;
+    }
+
+    .callout {
+      padding: 20px;
+      border-radius: var(--radius);
+      background: rgba(11, 122, 111, 0.08);
+      border: 1px solid rgba(11, 122, 111, 0.18);
+      font-family: "Space Grotesk", sans-serif;
+      font-size: var(--text-sm);
+    }
+
+    .io-toggle {
+      display: grid;
+      gap: 16px;
+    }
+
+    .io-tabs {
+      display: inline-flex;
+      gap: 8px;
+      padding: 6px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.65);
+      border: 1px solid rgba(11, 122, 111, 0.18);
+      width: max-content;
+      max-width: 100%;
+    }
+
+    .io-tab {
+      border: none;
+      background: transparent;
+      padding: 6px 14px;
+      border-radius: 999px;
+      font-family: "Space Grotesk", sans-serif;
+      font-size: var(--text-sm);
+      color: var(--muted);
+      cursor: pointer;
+      transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease;
+    }
+
+    .io-tab:hover {
+      color: var(--accent-strong);
+      transform: translateY(-1px);
+    }
+
+    .io-tab.is-active {
+      background: white;
+      color: var(--accent-strong);
+      box-shadow: 0 8px 16px rgba(27, 24, 21, 0.12);
+    }
+
+    .io-panel {
+      display: none;
+      gap: 16px;
+      min-height: var(--io-panel-min-height, auto);
+      grid-template-rows: auto 1fr;
+    }
+
+    .io-panel.is-active {
+      display: grid;
+    }
+
+    .io-image,
+    .io-graphic {
+      width: 80%;
+      height: auto;
+      border-radius: 16px;
+      border: 1px solid rgba(11, 122, 111, 0.15);
+      background: white;
+      padding: 8px;
+      display: block;
+      margin: 0 auto;
+    }
+
+    .io-graphic {
+      overflow: hidden;
+    }
+
+    .io-stack {
+      position: relative;
+      aspect-ratio: 1 / 1;
+      overflow: hidden;
+    }
+
+    .io-layer {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      opacity: 1;
+      transition: opacity 0.2s ease, filter 0.2s ease;
+    }
+
+    .io-layer[data-io-layer="speed"] {
+      opacity: 0;
+      width: 22%;
+      height: auto;
+      right: 6%;
+      bottom: 6%;
+      left: auto;
+      top: auto;
+    }
+
+    .io-layer[data-io-layer="speed"].is-active {
+      opacity: 1;
+    }
+
+    .io-stack.io-dim .io-layer {
+      opacity: 0.15;
+    }
+
+    .io-stack.io-dim .io-layer[data-io-layer="speed"]:not(.is-active) {
+      opacity: 0;
+    }
+
+    .io-stack .io-layer.is-active {
+      opacity: 1;
+    }
+
+    .io-stack[data-io-graphic="outputs"] .io-layer[data-io-layer="objects"] {
+      filter: saturate(0.7);
+      opacity: 0.7;
+    }
+
+    .io-stack[data-io-graphic="outputs"].io-dim .io-layer[data-io-layer="objects"]:not(.is-active) {
+      opacity: 0.05;
+    }
+
+    .io-graphic img {
+      width: 100%;
+      height: auto;
+      display: block;
+      border-radius: 12px;
+    }
+
+    .io-text {
+      display: grid;
+      gap: 0;
+      align-self: center;
+    }
+
+    .io-text p {
+      margin: 0;
+      padding: 5px 10px;
+    }
+
+    .io-text p + p {
+      margin-top: -1px;
+    }
+
+    .io-text [data-io-part] {
+      cursor: pointer;
+    }
+
+    pre {
+      background: #141210;
+      color: #f5efe7;
+      padding: 18px;
+      border-radius: 16px;
+      overflow-x: auto;
+      font-size: 0.88rem;
+    }
+
+    code {
+      font-family: "SFMono-Regular", Menlo, Consolas, "Liberation Mono", monospace;
+    }
+
+    footer {
+      margin-top: 60px;
+      padding-top: 24px;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font-size: var(--text-sm);
+    }
+
+    .table-card {
+      margin-top: 24px;
+      background: white;
+      border-radius: var(--radius);
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow-soft);
+      overflow: hidden;
+    }
+
+    .results-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-family: "Space Grotesk", sans-serif;
+    }
+
+    .results-table th,
+    .results-table td {
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--line);
+      text-align: left;
+      font-size: var(--text-sm);
+    }
+
+    .results-table th {
+      background: rgba(11, 122, 111, 0.08);
+      color: var(--accent-strong);
+      font-weight: 600;
+    }
+
+    .results-table tr:last-child td {
+      border-bottom: none;
+    }
+
+    .table-note {
+      margin: 0;
+      padding: 12px 16px 16px;
+      font-size: var(--text-xs);
+      color: var(--muted);
+    }
+
+    [data-reveal] {
+      opacity: 0;
+      transform: translateY(16px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+
+    [data-reveal].is-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    @media (max-width: 980px) {
+      .hero {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-media {
+        width: 100%;
+        max-width: 720px;
+        margin: 0 auto;
+      }
+
+      .io-image {
+        max-width: 520px;
+      }
+
+      .io-toggle {
+        max-width: 720px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      .grid.cols-2,
+      .grid.cols-3,
+      .stats {
+        grid-template-columns: 1fr;
+      }
+
+      .topnav {
+        position: static;
+      }
+    }
+
+
+    @media (prefers-reduced-motion: reduce) {
+      [data-reveal] {
+        transition: none;
+        opacity: 1;
+        transform: none;
+      }
+
+      .button {
+        transition: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header class="hero" id="top">
+      <div data-reveal>
+        <p class="eyebrow">Project Page</p>
+        <h1>PlanT 2.0: Exposing Biases and Structural Flaws in Closed-Loop Driving</h1>
+        <p class="subhead">PlanT 2.0 is a lightweight, object-centric planning transformer for CARLA. Its structured input enables controlled perturbations for failure analysis, while still delivering state-of-the-art closed-loop performance on CARLA Leaderboard&nbsp;2.0 benchmarks.</p>
+        <div class="chip-row">
+          <span class="chip">Object-centric planner</span>
+          <span class="chip">CARLA Leaderboard 2.0</span>
+          <span class="chip">Closed-loop evaluation</span>
+          <span class="chip">Robustness analysis</span>
+        </div>
+        <div class="authors">
+          <a href="https://linkedin.com/in/simon-gerstenecker">Simon Gerstenecker</a>, <a href="https://cvlibs.net">Andreas Geiger</a>, <a href="https://katrinrenz.de">Katrin Renz</a>
+          <span>University of Tübingen, Tübingen AI Center</span>
+        </div>
+        <div class="button-row">
+          <a class="button primary" href="https://arxiv.org/abs/2511.07292">Paper</a>
+          <a class="button secondary" href="https://github.com/autonomousvision/plant2">Code</a>
+          <a class="button secondary" href="https://huggingface.co/datasets/SimonGer/PlanT2_Dataset">Dataset</a>
+          <a class="button secondary" href="https://huggingface.co/SimonGer/PlanT2">Model</a>
+        </div>
+      </div>
+      <div class="hero-media" data-reveal>
+        <div class="scenario-slider">
+          <div class="scenario-stage">
+            <img data-scenario-base src="assets/Parking/Parking_road.svg" alt="Scenario road layout">
+            <img class="scenario-backdrop" data-scenario-backdrop src="assets/Accident/Accident_cars.svg" alt="Accident cars background">
+            <img class="scenario-overlay" data-scenario-overlay src="assets/Construction/Construction_Lateral_0_0.svg" alt="Construction overlay 0.0">
+          </div>
+          <div class="scenario-controls">
+            <div class="scenario-tabs" role="tablist" aria-label="Scenario selection">
+              <button class="scenario-tab is-active" type="button" data-scenario-tab="construction">Construction</button>
+              <button class="scenario-tab" type="button" data-scenario-tab="parking">Parking</button>
+              <button class="scenario-tab" type="button" data-scenario-tab="accident">Accident</button>
+            </div>
+            <label class="scenario-label" for="scenarioSlider"><span data-scenario-prefix>Lateral offset</span>: <span data-scenario-label>0.0 m</span></label>
+            <input id="scenarioSlider" class="scenario-range" type="range" min="0" max="48" step="1" value="24" data-scenario-slider>
+            <div class="scenario-note" aria-live="polite">
+              <div class="scenario-note-title" data-scenario-note-title>Scenario note</div>
+              <p class="caption" data-scenario-caption>Explore scenario behaviors with interactive permutations.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <section id="abstract" class="section" data-reveal>
+      <h2>Abstract</h2>
+      <p>Most recent work in autonomous driving has prioritized benchmark performance and methodological innovation over in-depth analysis of model failures, biases, and shortcut learning. PlanT&nbsp;2.0 enables a systematic study of failures by using a structured, object-centric input that can be perturbed in a controlled way. We introduce upgrades to PlanT for CARLA Leaderboard&nbsp;2.0 scenarios and achieve state-of-the-art results on Longest6 v2, Bench2Drive, and CARLA validation routes. Our analysis reveals failure modes linked to low obstacle diversity, rigid expert behavior, and overfitting to fixed trajectories, motivating a shift toward data-centric development.</p>
+    </section>
+
+    <section class="section" data-reveal>
+      <h2>Contributions</h2>
+      <div class="grid cols-3">
+        <div class="card">
+          <h3>Failure Analysis</h3>
+          <p>Systematic identification of planning failure modes via targeted perturbations of object-level inputs.</p>
+        </div>
+        <div class="card">
+          <h3>Planner Upgrades</h3>
+          <p>Improved inputs and planning representations to tackle CARLA Leaderboard&nbsp;2.0.</p>
+        </div>
+        <div class="card">
+          <h3>Open Release</h3>
+          <p>Code, models, and dataset are released to support reproducibility and future research on robustness.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="method" class="section">
+      <div class="grid cols-2">
+        <div class="card" data-reveal>
+          <h2>Model Overview</h2>
+          <p>
+            <strong>PlanT&nbsp;2.0</strong> uses a sparse, object-based representation of the environment that is processed by a transformer backbone.
+            This design allows the model to reason explicitly about interactions between relevant agents and map elements.
+            A&nbsp;disentangled planning output is used, with separate predictions for lateral and longitudinal vehicle control.
+            During training, the model additionally predicts the future states of surrounding objects as an auxiliary task.
+          </p>
+        </div>
+        <div class="callout io-toggle" data-reveal data-io-toggle>
+          <div class="io-tabs" role="tablist" aria-label="Inputs and outputs">
+            <button class="io-tab is-active" type="button" data-io-tab="inputs">Inputs</button>
+            <button class="io-tab" type="button" data-io-tab="outputs">Outputs</button>
+          </div>
+          <div class="io-panel is-active" data-io-panel="inputs">
+            <div class="io-image io-stack" data-io-graphic="inputs" role="img" aria-label="PlanT 2.0 inputs overview">
+              <img class="io-layer" data-io-layer="road" src="assets/Inputs/road.svg" alt="" aria-hidden="true">
+              <img class="io-layer" data-io-layer="route" src="assets/Inputs/route.svg" alt="" aria-hidden="true">
+              <img class="io-layer" data-io-layer="objects" src="assets/Inputs/objects.svg" alt="" aria-hidden="true">
+              <img class="io-layer" data-io-layer="ego" src="assets/Inputs/ego.svg" alt="" aria-hidden="true">
+              <img class="io-layer" data-io-layer="speed" src="assets/Inputs/50_kmh.svg" alt="" aria-hidden="true">
+            </div>
+            <div class="io-text">
+              <p data-io-part="objects" tabindex="0"><strong>Objects</strong>: Vehicles, pedestrians, static objects, emergency vehicles, stop signs, and traffic lights, each represented as oriented bounding boxes with velocity information.</p>
+              <p data-io-part="road" tabindex="0"><strong>Road layout</strong>: 64 m bird's-eye-view raster of the surrounding road network, encoded using a ResNet-18.</p>
+              <p data-io-part="route" tabindex="0"><strong>Route information</strong>: 20 route waypoints, embedded as a single token.</p>
+              <p data-io-part="speed" tabindex="0"><strong>Speed limit</strong>: A learned embedding token representing the current speed limit.</p>
+            </div>
+          </div>
+          <div class="io-panel" data-io-panel="outputs">
+            <div class="io-image io-stack" data-io-graphic="outputs" role="img" aria-label="PlanT 2.0 outputs overview">
+              <img class="io-layer" data-io-layer="road" src="assets/Inputs/road.svg" alt="" aria-hidden="true">
+              <img class="io-layer" data-io-layer="objects" src="assets/Outputs/objects.svg" alt="" aria-hidden="true">
+              <img class="io-layer" data-io-layer="ego" src="assets/Inputs/ego.svg" alt="" aria-hidden="true">
+              <img class="io-layer" data-io-layer="forecasting" src="assets/Outputs/forecasts.svg" alt="" aria-hidden="true">
+              <img class="io-layer" data-io-layer="path" src="assets/Outputs/route.svg" alt="" aria-hidden="true">
+              <img class="io-layer" data-io-layer="waypoints" src="assets/Outputs/waypoints.svg" alt="" aria-hidden="true">
+            </div>
+            <div class="io-text">
+              <p data-io-part="waypoints" tabindex="0"><strong>Waypoints</strong>: 8 future waypoints sampled at 4 Hz, used for longitudinal control.</p>
+              <p data-io-part="path" tabindex="0"><strong>Path</strong>: 20 spatially equidistant path points (1 m spacing) used for lateral control.</p>
+              <p data-io-part="forecasting" tabindex="0"><strong>Actor forecasting</strong>: As an auxiliary task, the future state of surrounding actors is predicted for the next timestep.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="insights" class="section">
+      <h2>Key insights</h2>
+      <div class="insight-grid">
+        <div class="card">
+          <h3>Shortcut learning</h3>
+          <p>
+            The model exploits recurring patterns and timing cues instead of learning causal decision-making.
+          </p>
+        </div>
+        <div class="card">
+          <h3>Rigid expert behavior</h3>
+          <p>
+            Fixed expert trajectories restrict the learned action space, causing poor adaptation to new scenarios.
+          </p>
+        </div>
+        <div class="card">
+          <h3>Low obstacle diversity</h3>
+          <p>
+            Small number of unique obstacles limits spatial reasoning and environmental understanding.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section stats-showcase" data-reveal>
+      <h2>State-of-the-art performance</h2>
+      <div class="stats">
+        <div class="stat">
+          <strong>Longest6 v2</strong>
+          <span class="stat-value">DS 74.7</span>
+        </div>
+        <div class="stat">
+          <strong>Bench2Drive</strong>
+          <span class="stat-value">DS 92.4 / SR 83.8</span>
+        </div>
+        <div class="stat">
+          <strong>CARLA Validation</strong>
+          <span class="stat-value">NDS 28.6</span>
+        </div>
+      </div>
+    </section>
+
+    <section id="resources" class="section" data-reveal>
+      <h2>Resources</h2>
+      <div class="grid cols-2">
+        <div class="card">
+          <h3>Pretrained Models</h3>
+          <p>Download checkpoints from Hugging Face and run evaluation using the CARLA leaderboard evaluator.</p>
+          <p><a href="https://huggingface.co/SimonGer/PlanT2">Model on Hugging Face</a></p>
+        </div>
+        <div class="card">
+          <h3>Dataset</h3>
+          <p>We release the dataset used in the paper for training and analysis of object-centric planners.</p>
+          <p><a href="https://huggingface.co/datasets/SimonGer/PlanT2_Dataset">PlanT2 Dataset</a></p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" data-reveal>
+      <h2>Citation</h2>
+      <pre>@misc{gerstenecker2025plant20exposingbiases,
+      title={PlanT 2.0: Exposing Biases and Structural Flaws in Closed-Loop Driving},
+      author={Simon Gerstenecker and Andreas Geiger and Katrin Renz},
+      year={2025},
+      eprint={2511.07292},
+      archivePrefix={arXiv},
+      primaryClass={cs.RO},
+      url={https://arxiv.org/abs/2511.07292},
+}</pre>
+    </section>
+
+    <!-- <footer>
+      TODO
+    </footer> -->
+  </div>
+
+  <script>
+    const revealItems = document.querySelectorAll('[data-reveal]');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15 });
+
+    revealItems.forEach((el) => observer.observe(el));
+
+    const scenarioSlider = document.querySelector('[data-scenario-slider]');
+    const scenarioOverlay = document.querySelector('[data-scenario-overlay]');
+    const scenarioBase = document.querySelector('[data-scenario-base]');
+    const scenarioBackdrop = document.querySelector('[data-scenario-backdrop]');
+    const scenarioLabel = document.querySelector('[data-scenario-label]');
+    const scenarioPrefix = document.querySelector('[data-scenario-prefix]');
+    const scenarioTabs = document.querySelectorAll('[data-scenario-tab]');
+
+    if (scenarioSlider && scenarioOverlay && scenarioBase && scenarioLabel && scenarioPrefix) {
+      const buildSteps = (start, end, step) => {
+        const total = Math.round((end - start) / step);
+        return Array.from({ length: total + 1 }, (_, i) => Number((start + i * step).toFixed(2)));
+      };
+
+      const formatDisplay = (value) => {
+        const rounded = Number(value.toFixed(2));
+        if (Number.isInteger(rounded)) {
+          return rounded.toFixed(1);
+        }
+        return rounded.toFixed(2).replace(/0+$/, '').replace(/\.$/, '');
+      };
+
+      const formatHalfToken = (value) => {
+        const halfIndex = Math.round(value * 2);
+        const whole = Math.floor(halfIndex / 2);
+        const suffix = halfIndex % 2 === 0 ? '0' : '5';
+        return `${whole}_${suffix}`;
+      };
+
+      const formatQuarterToken = (value) => {
+        const sign = value < 0 ? '-' : '';
+        const quarterIndex = Math.round(Math.abs(value) * 4);
+        const whole = Math.floor(quarterIndex / 4);
+        const remainder = quarterIndex % 4;
+        const fractionMap = ['0', '25', '5', '75'];
+        return `${sign}${whole}_${fractionMap[remainder]}`;
+      };
+
+      const parkingSteps = buildSteps(0, 12, 0.5);
+      const constructionSteps = buildSteps(-6, 6, 0.25);
+      const constructionValues = [...constructionSteps].reverse();
+      const accidentSteps = buildSteps(0, 45, 1);
+      const constructionDefaultIndex = constructionValues.indexOf(0);
+
+      const scenarioConfig = {
+        parking: {
+          label: 'Ego offset',
+          base: 'assets/Parking/Parking_road.svg',
+          baseAlt: 'Scenario road layout',
+          values: parkingSteps,
+          defaultIndex: 0,
+          displayValue: (value) => `${formatDisplay(value)} m`,
+          fileForValue: (value) => `assets/Parking/Parking_${formatHalfToken(value)}.svg`,
+          altPrefix: 'Parking overlay',
+          noteTitle: 'Distance to merging vehicle',
+          caption: 'As the agent approaches a merging vehicle, PlanT 2.0 predicts to keep driving at close distances.',
+        },
+        construction: {
+          label: 'Lateral offset',
+          base: 'assets/Parking/Parking_road.svg',
+          baseAlt: 'Scenario road layout',
+          values: constructionValues,
+          defaultIndex: constructionDefaultIndex === -1 ? 0 : constructionDefaultIndex,
+          displayValue: (value) => `${formatDisplay(value)} m`,
+          fileForValue: (value) => `assets/Construction/Construction_Lateral_${formatQuarterToken(value)}.svg`,
+          altPrefix: 'Construction overlay',
+          noteTitle: 'Shifting construction site',
+          caption: 'PlanT 2.0 reacts to the construction setup even when placed outside its lane.',
+        },
+        accident: {
+          label: 'Ego Rotation',
+          base: 'assets/Parking/Parking_road.svg',
+          baseAlt: 'Scenario road layout',
+          values: accidentSteps,
+          defaultIndex: 0,
+          displayValue: (value) => `${Math.round(value)}°`,
+          fileForValue: (value) => `assets/Accident/Accident_Rotation_${Math.round(value)}.svg`,
+          backdrop: 'assets/Accident/Accident_cars.svg',
+          backdropAlt: 'Accident cars background',
+          overlayTransform: (value) => `rotate(${-Math.round(value)}deg)`,
+          overlayOrigin: '50% 84.2857%',
+          altPrefix: 'Accident overlay',
+          noteTitle: 'Waiting for traffic at accident',
+          caption: 'When the ego rotation is increased while waiting for oncoming traffic, PlanT 2.0 predicts to start driving.',
+        },
+      };
+
+      const scenarioCaption = document.querySelector('[data-scenario-caption]');
+      const scenarioNoteTitle = document.querySelector('[data-scenario-note-title]');
+
+      const updateScenarioOverlay = () => {
+        const scenario = scenarioSlider.dataset.scenario || 'parking';
+        const config = scenarioConfig[scenario];
+        if (!config) {
+          return;
+        }
+        const index = Number(scenarioSlider.value);
+        const value = config.values[index];
+        if (value === undefined) {
+          return;
+        }
+        const displayValue = config.displayValue ? config.displayValue(value) : value;
+        scenarioOverlay.src = config.fileForValue(value);
+        scenarioOverlay.alt = `${config.altPrefix} ${displayValue}`;
+        scenarioOverlay.style.transform = config.overlayTransform ? config.overlayTransform(value) : 'none';
+        scenarioLabel.textContent = displayValue;
+      };
+
+      const setScenario = (scenario) => {
+        const config = scenarioConfig[scenario];
+        if (!config) {
+          return;
+        }
+        const defaultIndex = Number.isInteger(config.defaultIndex) ? config.defaultIndex : 0;
+        scenarioSlider.dataset.scenario = scenario;
+        scenarioSlider.max = config.values.length - 1;
+        scenarioSlider.value = Math.min(defaultIndex, config.values.length - 1);
+        scenarioBase.src = config.base;
+        scenarioBase.alt = config.baseAlt;
+        scenarioPrefix.textContent = config.label;
+        scenarioOverlay.style.transformOrigin = config.overlayOrigin || '50% 50%';
+        if (scenarioBackdrop) {
+          if (config.backdrop) {
+            scenarioBackdrop.src = config.backdrop;
+            scenarioBackdrop.alt = config.backdropAlt || 'Scenario background';
+            scenarioBackdrop.style.display = 'block';
+          } else {
+            scenarioBackdrop.style.display = 'none';
+          }
+        }
+        if (scenarioNoteTitle) {
+          scenarioNoteTitle.textContent = config.noteTitle || 'Scenario note';
+        }
+        if (scenarioCaption) {
+          scenarioCaption.textContent = config.caption;
+        }
+        updateScenarioOverlay();
+      };
+
+      scenarioTabs.forEach((tab) => {
+        tab.addEventListener('click', () => {
+          scenarioTabs.forEach((button) => button.classList.remove('is-active'));
+          tab.classList.add('is-active');
+          setScenario(tab.dataset.scenarioTab);
+        });
+      });
+
+      scenarioSlider.addEventListener('input', updateScenarioOverlay);
+      setScenario('construction');
+    }
+
+    const ioPartConfig = {
+      outputs: {
+        waypoints: {
+          selector: '[stroke="#ab0303"], [fill="#eb0e0e"]',
+        },
+        path: {
+          selector: '[stroke="#05961a"], [fill="#00cf1f"]',
+        },
+        forecasting: {
+          selector: '[stroke="#6da5f2"]',
+        },
+      },
+    };
+
+    const prepareIoGraphic = (graphic, config) => {
+      if (!graphic || !config) {
+        return null;
+      }
+      const svgDoc = graphic.contentDocument;
+      if (!svgDoc || !svgDoc.documentElement) {
+        return null;
+      }
+      const svgRoot = svgDoc.documentElement;
+      if (!svgRoot.dataset.ioReady) {
+        const style = svgDoc.createElementNS('http://www.w3.org/2000/svg', 'style');
+        style.textContent = `
+          .io-part { transition: opacity 0.2s ease, filter 0.2s ease; }
+          .io-dim .io-part { opacity: 0.15; }
+          .io-dim .io-part.is-active { opacity: 1; filter: drop-shadow(0 0 6px rgba(11, 122, 111, 0.6)); }
+        `;
+        svgRoot.prepend(style);
+        svgRoot.dataset.ioReady = 'true';
+      }
+      Object.entries(config).forEach(([part, details]) => {
+        const selector = details.selector;
+        if (!selector) {
+          return;
+        }
+        svgRoot.querySelectorAll(selector).forEach((node) => {
+          node.classList.add('io-part', `io-part-${part}`);
+          node.dataset.ioPart = part;
+        });
+      });
+      return svgRoot;
+    };
+
+    const bindIoHighlights = (panel) => {
+      if (!panel) {
+        return;
+      }
+      const graphic = panel.querySelector('[data-io-graphic]');
+      const partConfig = graphic ? ioPartConfig[graphic.dataset.ioGraphic] : null;
+      let svgRoot = null;
+      let layerRoot = null;
+      const isSvgGraphic = graphic && graphic.tagName === 'OBJECT';
+      const partItems = panel.querySelectorAll('[data-io-part]');
+      const layerOverrides = graphic && graphic.dataset.ioGraphic === 'outputs'
+        ? { forecasting: ['forecasting', 'objects'] }
+        : {};
+      const getActiveNodes = (part) => {
+        if (svgRoot) {
+          return svgRoot.querySelectorAll(`.io-part-${part}`);
+        }
+        if (layerRoot) {
+          const parts = layerOverrides[part] || [part];
+          return parts.flatMap((name) => Array.from(layerRoot.querySelectorAll(`[data-io-layer="${name}"]`)));
+        }
+        return [];
+      };
+      const clearActiveNodes = () => {
+        if (svgRoot) {
+          svgRoot.querySelectorAll('.io-part.is-active').forEach((node) => node.classList.remove('is-active'));
+        }
+        if (layerRoot) {
+          layerRoot.querySelectorAll('.io-layer.is-active').forEach((node) => node.classList.remove('is-active'));
+        }
+      };
+      const setActive = (part) => {
+        if ((!svgRoot && !layerRoot) || !part) {
+          return;
+        }
+        const root = svgRoot || layerRoot;
+        root.classList.add('io-dim');
+        clearActiveNodes();
+        getActiveNodes(part).forEach((node) => node.classList.add('is-active'));
+        partItems.forEach((item) => item.classList.toggle('is-active', item.dataset.ioPart === part));
+      };
+      const clearActive = () => {
+        if (!svgRoot && !layerRoot) {
+          return;
+        }
+        const root = svgRoot || layerRoot;
+        root.classList.remove('io-dim');
+        clearActiveNodes();
+        partItems.forEach((item) => item.classList.remove('is-active'));
+      };
+      if (graphic && isSvgGraphic && partConfig) {
+        const hydrate = () => {
+          svgRoot = prepareIoGraphic(graphic, partConfig);
+        };
+        if (graphic.contentDocument) {
+          hydrate();
+        } else {
+          graphic.addEventListener('load', hydrate, { once: true });
+        }
+      } else if (graphic) {
+        layerRoot = graphic;
+      }
+      partItems.forEach((item) => {
+        item.addEventListener('mouseenter', () => setActive(item.dataset.ioPart));
+        item.addEventListener('mouseleave', clearActive);
+        item.addEventListener('focus', () => setActive(item.dataset.ioPart));
+        item.addEventListener('blur', clearActive);
+      });
+      panel.addEventListener('mouseleave', clearActive);
+    };
+
+    const ioToggles = document.querySelectorAll('[data-io-toggle]');
+    ioToggles.forEach((toggle) => {
+      const tabs = toggle.querySelectorAll('[data-io-tab]');
+      const panels = toggle.querySelectorAll('[data-io-panel]');
+      if (!tabs.length || !panels.length) {
+        return;
+      }
+      const inputsPanel = toggle.querySelector('[data-io-panel="inputs"]');
+      const mediaQuery = window.matchMedia('(min-width: 981px)');
+      const setActive = (name) => {
+        tabs.forEach((tab) => tab.classList.toggle('is-active', tab.dataset.ioTab === name));
+        panels.forEach((panel) => panel.classList.toggle('is-active', panel.dataset.ioPanel === name));
+      };
+      const lockInputsHeight = () => {
+        if (!inputsPanel) {
+          return;
+        }
+        if (!mediaQuery.matches) {
+          toggle.style.removeProperty('--io-panel-min-height');
+          return;
+        }
+        const height = inputsPanel.getBoundingClientRect().height;
+        if (height) {
+          toggle.style.setProperty('--io-panel-min-height', `${height}px`);
+        }
+      };
+      tabs.forEach((tab) => {
+        tab.addEventListener('click', () => setActive(tab.dataset.ioTab));
+      });
+      setActive(tabs[0].dataset.ioTab);
+      lockInputsHeight();
+      const inputsGraphic = toggle.querySelector('[data-io-panel="inputs"] [data-io-graphic]');
+      if (inputsGraphic && inputsGraphic.tagName === 'OBJECT') {
+        inputsGraphic.addEventListener('load', lockInputsHeight, { once: true });
+      }
+      mediaQuery.addEventListener('change', lockInputsHeight);
+      window.addEventListener('resize', lockInputsHeight);
+      panels.forEach((panel) => bindIoHighlights(panel));
+    });
+  </script>
+</body>
+</html>
