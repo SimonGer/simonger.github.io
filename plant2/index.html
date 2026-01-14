@@ -307,6 +307,47 @@
     .scenario-range {
       width: 100%;
       accent-color: var(--accent);
+      touch-action: pan-y;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    @media (pointer: coarse) {
+      .scenario-range {
+        height: 34px;
+      }
+
+      .scenario-range::-webkit-slider-runnable-track {
+        height: 10px;
+        border-radius: 999px;
+        background: linear-gradient(90deg, rgba(11, 122, 111, 0.25), rgba(11, 122, 111, 0.15));
+      }
+
+      .scenario-range::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        appearance: none;
+        width: 30px;
+        height: 30px;
+        margin-top: -10px;
+        border-radius: 50%;
+        background: var(--accent);
+        box-shadow: 0 6px 14px rgba(11, 122, 111, 0.28);
+        border: 2px solid #ffffff;
+      }
+
+      .scenario-range::-moz-range-track {
+        height: 10px;
+        border-radius: 999px;
+        background: linear-gradient(90deg, rgba(11, 122, 111, 0.25), rgba(11, 122, 111, 0.15));
+      }
+
+      .scenario-range::-moz-range-thumb {
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        background: var(--accent);
+        box-shadow: 0 6px 14px rgba(11, 122, 111, 0.28);
+        border: 2px solid #ffffff;
+      }
     }
 
     .scenario-note {
@@ -1026,6 +1067,47 @@
       const scenarioCaption = document.querySelector('[data-scenario-caption]');
       const scenarioNoteTitle = document.querySelector('[data-scenario-note-title]');
 
+      const overlayCache = new Map();
+      let overlayRafId = null;
+      let lastOverlaySrc = '';
+      let lastOverlayTransform = '';
+      let lastOverlayLabel = '';
+
+      const preloadSource = (src) => {
+        if (!src || overlayCache.has(src)) {
+          return;
+        }
+        const img = new Image();
+        img.decoding = 'async';
+        img.src = src;
+        overlayCache.set(src, img);
+      };
+
+      const schedulePreload = (config) => {
+        if (!config) {
+          return;
+        }
+        const sources = [config.base, config.backdrop]
+          .filter(Boolean)
+          .concat(config.values.map((value) => config.fileForValue(value)));
+        let index = 0;
+        const preloadChunk = () => {
+          const start = performance.now();
+          while (index < sources.length && performance.now() - start < 12) {
+            preloadSource(sources[index]);
+            index += 1;
+          }
+          if (index < sources.length) {
+            if ('requestIdleCallback' in window) {
+              window.requestIdleCallback(preloadChunk, { timeout: 200 });
+            } else {
+              window.setTimeout(preloadChunk, 16);
+            }
+          }
+        };
+        preloadChunk();
+      };
+
       const updateScenarioOverlay = () => {
         const scenario = scenarioSlider.dataset.scenario || 'parking';
         const config = scenarioConfig[scenario];
@@ -1038,10 +1120,34 @@
           return;
         }
         const displayValue = config.displayValue ? config.displayValue(value) : value;
-        scenarioOverlay.src = config.fileForValue(value);
-        scenarioOverlay.alt = `${config.altPrefix} ${displayValue}`;
-        scenarioOverlay.style.transform = config.overlayTransform ? config.overlayTransform(value) : 'none';
-        scenarioLabel.textContent = displayValue;
+        const nextSrc = config.fileForValue(value);
+        const nextTransform = config.overlayTransform ? config.overlayTransform(value) : 'none';
+        const nextLabel = `${config.altPrefix} ${displayValue}`;
+        if (nextSrc !== lastOverlaySrc) {
+          scenarioOverlay.src = nextSrc;
+          lastOverlaySrc = nextSrc;
+        }
+        if (nextTransform !== lastOverlayTransform) {
+          scenarioOverlay.style.transform = nextTransform;
+          lastOverlayTransform = nextTransform;
+        }
+        if (nextLabel !== lastOverlayLabel) {
+          scenarioOverlay.alt = nextLabel;
+          lastOverlayLabel = nextLabel;
+        }
+        if (scenarioLabel.textContent !== displayValue) {
+          scenarioLabel.textContent = displayValue;
+        }
+      };
+
+      const scheduleOverlayUpdate = () => {
+        if (overlayRafId !== null) {
+          return;
+        }
+        overlayRafId = window.requestAnimationFrame(() => {
+          overlayRafId = null;
+          updateScenarioOverlay();
+        });
       };
 
       const setScenario = (scenario) => {
@@ -1072,6 +1178,7 @@
         if (scenarioCaption) {
           scenarioCaption.textContent = config.caption;
         }
+        schedulePreload(config);
         updateScenarioOverlay();
       };
 
@@ -1083,7 +1190,7 @@
         });
       });
 
-      scenarioSlider.addEventListener('input', updateScenarioOverlay);
+      scenarioSlider.addEventListener('input', scheduleOverlayUpdate);
       setScenario('construction');
     }
 
