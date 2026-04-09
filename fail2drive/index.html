@@ -39,10 +39,19 @@
       font-family: "Newsreader", serif;
       font-size: 17px;
       line-height: 1.6;
+      background: var(--bg);
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      z-index: -1;
       background:
         radial-gradient(circle at 18% 12%, rgba(240, 124, 74, 0.16), transparent 46%),
         radial-gradient(circle at 82% 8%, rgba(47, 111, 143, 0.18), transparent 42%),
         linear-gradient(180deg, #f7f9fc 0%, var(--bg) 55%, var(--bg-2) 100%);
+      will-change: transform;
     }
 
     body.scene-interacting {
@@ -70,7 +79,7 @@
       grid-template-columns: 1fr 1.6fr;
       gap: 40px;
       align-items: center;
-      padding: 48px 0 64px;
+      padding: 0 0 64px;
     }
 
     .eyebrow {
@@ -147,7 +156,7 @@
       font-weight: 600;
       font-size: var(--text-sm);
       border: 1px solid transparent;
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      transition: transform 0.2s ease;
     }
 
     .button.primary {
@@ -214,6 +223,8 @@
 
     .section {
       padding: 32px 0 0;
+      content-visibility: auto;
+      contain-intrinsic-size: auto 500px;
     }
 
     .section h2 {
@@ -280,6 +291,7 @@
       border: 0;
       box-shadow: none;
       padding: 48px 0 0;
+      contain: layout style;
     }
 
     .section h2 + .subpoint-card {
@@ -353,8 +365,7 @@
       font-size: 0.7rem;
       letter-spacing: 0.02em;
       color: #ffffff;
-      background: rgba(12, 18, 34, 0.62);
-      backdrop-filter: blur(2px);
+      background: rgba(12, 18, 34, 0.72);
       pointer-events: none;
       user-select: none;
     }
@@ -391,7 +402,7 @@
     .slider-overlay {
       z-index: 1;
       clip-path: inset(0 0 0 50%);
-      will-change: clip-path;
+      will-change: auto;
     }
 
     .slider-stage span {
@@ -527,15 +538,16 @@
     .video-card-shell {
       display: grid;
       border-radius: 20px;
-      background: rgba(255, 255, 255, 0.92);
+      background: #ffffff;
       padding: 14px;
       box-shadow: 0 20px 50px rgba(12, 18, 34, 0.11), 0 1px 3px rgba(12, 18, 34, 0.06);
+      contain: layout style paint;
     }
 
     .carousel-video-stack {
       display: grid;
       border-radius: 14px;
-      background: rgba(255, 255, 255, 0.92);
+      background: #ffffff;
     }
 
     .carousel-slide {
@@ -543,6 +555,7 @@
       opacity: 0;
       visibility: hidden;
       transition: opacity 0.25s ease, visibility 0s 0.25s;
+      contain: layout style paint;
     }
 
     .carousel-slide.is-active {
@@ -555,7 +568,7 @@
       position: relative;
       border-radius: 14px;
       overflow: hidden;
-      background: rgba(255, 255, 255, 0.92);
+      background: #ffffff;
     }
 
     .carousel-slide video {
@@ -626,7 +639,7 @@
       place-items: center;
       cursor: pointer;
       box-shadow: 0 2px 10px rgba(12, 18, 34, 0.09);
-      transition: transform 0.16s ease, box-shadow 0.16s ease, background-color 0.16s ease, color 0.16s ease;
+      transition: transform 0.16s ease, background-color 0.16s ease, color 0.16s ease;
       padding: 0;
       line-height: 0;
     }
@@ -794,7 +807,7 @@
       color: var(--muted);
       text-align: left;
       cursor: pointer;
-      transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+      transition: transform 0.2s ease, border-color 0.2s ease;
     }
 
     .map-option img {
@@ -858,6 +871,7 @@
       place-items: center;
       z-index: 2;
       min-width: 0;
+      contain: layout style paint;
     }
 
 
@@ -869,6 +883,7 @@
         linear-gradient(120deg, rgba(47, 111, 143, 0.08), rgba(240, 124, 74, 0.08)),
         var(--scene-map, url("CARLA_BEV.png")) center / cover no-repeat;
       z-index: 0;
+      will-change: transform;
     }
 
     .scene-zoom {
@@ -1011,9 +1026,9 @@
       touch-action: auto;
       transform-origin: center;
       opacity: 1;
-      transition: opacity 0.16s ease;
       z-index: 2;
       overflow: visible;
+      contain: layout style;
     }
 
     .scene-object img {
@@ -1069,11 +1084,13 @@
 
     .scene-object.is-selected {
       outline: 2px solid rgba(240, 124, 74, 0.8);
+    }
+
+    .scene-object.is-selected:not(.is-dragging) {
       box-shadow: 0 16px 32px rgba(240, 124, 74, 0.25);
     }
 
-    body.delete-cursor-hidden,
-    body.delete-cursor-hidden * {
+    body.delete-cursor-hidden {
       cursor: none !important;
     }
 
@@ -1123,7 +1140,7 @@
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      transition: transform 0.15s ease, box-shadow 0.15s ease;
+      transition: transform 0.15s ease;
     }
 
     .trash-button-content {
@@ -1212,12 +1229,11 @@
       cursor: grab;
       user-select: none;
       touch-action: none;
-      transition: transform 0.15s ease, box-shadow 0.15s ease;
+      transition: transform 0.15s ease;
     }
 
     .palette-item:hover {
       transform: translateY(-2px);
-      box-shadow: 0 10px 24px rgba(12, 18, 34, 0.12);
     }
 
     .palette-item img {
@@ -1345,13 +1361,14 @@
     [data-reveal] {
       opacity: 0;
       transform: translateY(14px);
-      transition: opacity 0.48s ease-out, transform 0.48s ease-out;
       will-change: opacity, transform;
+      transition: opacity 0.48s ease-out, transform 0.48s ease-out;
     }
 
     [data-reveal].is-visible {
       opacity: 1;
       transform: translateY(0);
+      will-change: auto;
     }
 
     @media (max-width: 980px) {
@@ -1434,7 +1451,7 @@
           <span>University of Tübingen · Tübingen AI Center</span>
         </div>
         <div class="button-row">
-          <a class="button secondary" href="#">Paper</a>
+          <a class="button primary" href="#">Paper</a>
           <a class="button secondary" href="https://github.com/autonomousvision/fail2drive">GitHub</a>
           <a class="button secondary" href="./scenario-gallery/">Scenario gallery</a>
         </div>
@@ -1491,11 +1508,11 @@
           <div class="slider-block" data-slider>
             <div class="slider-stage">
               <div class="slider-base">
-                <img src="assets/page/pairs/0076_00492_cropped.webp" alt="Animals in-distribution scenario">
+                <img src="assets/page/pairs/0076_00492_cropped.webp" alt="Animals in-distribution scenario" loading="lazy">
                 <div class="slider-tag tag-base">In-distribution</div>
               </div>
               <div class="slider-overlay">
-                <img src="assets/page/pairs/1076_00477_cropped.webp" alt="Animals generalization scenario">
+                <img src="assets/page/pairs/1076_00477_cropped.webp" alt="Animals generalization scenario" loading="lazy">
                 <div class="slider-tag tag-overlay">Out-of-distribution</div>
               </div>
               <div class="slider-divider" data-slider-divider>
@@ -1509,11 +1526,11 @@
           <div class="slider-block" data-slider>
             <div class="slider-stage">
               <div class="slider-base">
-                <img src="assets/page/pairs/0048_00273_cropped.webp" alt="Stop sign in-distribution scenario">
+                <img src="assets/page/pairs/0048_00273_cropped.webp" alt="Stop sign in-distribution scenario" loading="lazy">
                 <div class="slider-tag tag-base">In-distribution</div>
               </div>
               <div class="slider-overlay">
-                <img src="assets/page/pairs/1048_00264_cropped.webp" alt="Stop sign generalization scenario">
+                <img src="assets/page/pairs/1048_00264_cropped.webp" alt="Stop sign generalization scenario" loading="lazy">
                 <div class="slider-tag tag-overlay">Out-of-distribution</div>
               </div>
               <div class="slider-divider" data-slider-divider>
@@ -1527,11 +1544,11 @@
           <div class="slider-block" data-slider>
             <div class="slider-stage">
               <div class="slider-base">
-                <img src="assets/page/pairs/0021_00126_cropped.webp" alt="Obstacle in-distribution scenario">
+                <img src="assets/page/pairs/0021_00126_cropped.webp" alt="Obstacle in-distribution scenario" loading="lazy">
                 <div class="slider-tag tag-base">In-distribution</div>
               </div>
               <div class="slider-overlay">
-                <img src="assets/page/pairs/1021_00126_cropped.webp" alt="Obstacle generalization scenario">
+                <img src="assets/page/pairs/1021_00126_cropped.webp" alt="Obstacle generalization scenario" loading="lazy">
                 <div class="slider-tag tag-overlay">Out-of-distribution</div>
               </div>
               <div class="slider-divider" data-slider-divider>
@@ -1548,11 +1565,11 @@
         <h3>Unseen Scenarios</h3>
         <p>CARLA uses the same scenarios for training and testing. Fail2Drive adds unseen generalization scenarios to measure the true generalization potential of current models.</p>
         <div class="thumb-grid">
-          <div class="thumb"><img src="assets/page/scenarios/cola_deer.webp" alt="Cola deer scenario"></div>
-          <div class="thumb"><img src="assets/page/scenarios/customobstacle.webp" alt="Custom obstacle scenario"></div>
-          <div class="thumb"><img src="assets/page/scenarios/haybales.webp" alt="Hay bales scenario"></div>
-          <div class="thumb"><img src="assets/page/scenarios/imageon.webp" alt="Image-on scenario"></div>
-          <div class="thumb"><img src="assets/page/scenarios/kidsonroad.webp" alt="Kids on road scenario"></div>
+          <div class="thumb"><img src="assets/page/scenarios/cola_deer.webp" alt="Cola deer scenario" loading="lazy"></div>
+          <div class="thumb"><img src="assets/page/scenarios/customobstacle.webp" alt="Custom obstacle scenario" loading="lazy"></div>
+          <div class="thumb"><img src="assets/page/scenarios/haybales.webp" alt="Hay bales scenario" loading="lazy"></div>
+          <div class="thumb"><img src="assets/page/scenarios/imageon.webp" alt="Image-on scenario" loading="lazy"></div>
+          <div class="thumb"><img src="assets/page/scenarios/kidsonroad.webp" alt="Kids on road scenario" loading="lazy"></div>
         </div>
         <div class="button-row" style="margin-top: 16px;">
           <a class="button primary" href="./scenario-gallery/">View Gallery</a>
@@ -1575,29 +1592,26 @@
             <div class="carousel-video-stack">
               <div class="carousel-slide" data-failure-slide aria-label="Failure case 1">
                 <div class="video-stage">
-                  <video muted loop preload="metadata" playsinline>
+                  <video muted loop preload="metadata" playsinline data-src="assets/page/failures/HipADElephant.mp4">
                     <source src="assets/page/failures/HipADElephant.mp4" type="video/mp4">
                   </video>
                 </div>
               </div>
               <div class="carousel-slide" data-failure-slide aria-label="Failure case 2">
                 <div class="video-stage">
-                  <video muted loop preload="metadata" playsinline>
-                    <source src="assets/page/failures/PlanTConstruction.mp4" type="video/mp4">
+                  <video muted loop preload="none" playsinline data-src="assets/page/failures/PlanTConstruction.mp4">
                   </video>
                 </div>
               </div>
               <div class="carousel-slide" data-failure-slide aria-label="Failure case 3">
                 <div class="video-stage">
-                  <video muted loop preload="metadata" playsinline>
-                    <source src="assets/page/failures/SimLingoSlide.mp4" type="video/mp4">
+                  <video muted loop preload="none" playsinline data-src="assets/page/failures/SimLingoSlide.mp4">
                   </video>
                 </div>
               </div>
               <div class="carousel-slide" data-failure-slide aria-label="Failure case 4">
                 <div class="video-stage">
-                  <video muted loop preload="metadata" playsinline>
-                    <source src="assets/page/failures/TFppFeuerwehr.mp4" type="video/mp4">
+                  <video muted loop preload="none" playsinline data-src="assets/page/failures/TFppFeuerwehr.mp4">
                   </video>
                 </div>
               </div>
@@ -1633,7 +1647,7 @@
           <h3>Quantitative Evaluation</h3>
           <p>Fail2Drive makes generalization failures measurable. The quantitative metrics capture the gap between in-distribution and unseen scenarios and show that breakdowns are widespread across recent state-of-the-art models.</p>
           <figure class="quant-figure">
-            <img src="assets/page/Quantitative.webp" alt="Quantitative Fail2Drive results figure">
+            <img src="assets/page/Quantitative.webp" alt="Quantitative Fail2Drive results figure" loading="lazy">
           </figure>
       </div>
       <div class="subpoint-card" data-reveal>
@@ -1644,7 +1658,7 @@
           <!-- <br>Results can be submitted through the <a href="#">leaderboard repository.</a> -->
           <a href="https://github.com/SimonGer/fail2drive_leaderboard">Submit results via GitHub &rarr;</a></p>
           <figure class="quant-figure is-wide">
-            <img src="http://raw.githubusercontent.com/SimonGer/fail2drive_leaderboard/main/rendered/table.png" alt="Fail2Drive leaderboard figure">
+            <img src="https://raw.githubusercontent.com/SimonGer/fail2drive_leaderboard/main/rendered/table.png" alt="Fail2Drive leaderboard figure" loading="lazy">
           </figure>
       </div>
     </section>
@@ -1692,17 +1706,17 @@
               <h3>Maps</h3>
               <div class="map-options" id="mapOptions">
                 <button class="map-option is-active" type="button" data-map="Town10HD" data-bev="assets/page/scenario_generator/bev_Town10HD_x33.50_y-67.91.webp" data-preview="assets/page/scenario_generator/bev_Town10HD_x33.50_y-67.91_normal.webp" aria-pressed="true">
-                  <img src="assets/page/scenario_generator/bev_Town10HD_x33.50_y-67.91_normal.webp" alt="Town10HD map preview">
+                  <img src="assets/page/scenario_generator/bev_Town10HD_x33.50_y-67.91_normal.webp" alt="Town10HD map preview" loading="lazy">
                   <strong>Town10HD</strong>
                   <span>Top-down BEV</span>
                 </button>
                 <button class="map-option" type="button" data-map="Town07" data-bev="assets/page/scenario_generator/bev_Town07_x-41.03_y124.25.webp" data-preview="assets/page/scenario_generator/bev_Town07_x-41.03_y124.25_normal.webp" aria-pressed="false">
-                  <img src="assets/page/scenario_generator/bev_Town07_x-41.03_y124.25_normal.webp" alt="Town07 map preview">
+                  <img src="assets/page/scenario_generator/bev_Town07_x-41.03_y124.25_normal.webp" alt="Town07 map preview" loading="lazy">
                   <strong>Town07</strong>
                   <span>Top-down BEV</span>
                 </button>
                 <button class="map-option" type="button" data-map="Town01" data-bev="assets/page/scenario_generator/bev_Town01_x203.87_y55.49.webp" data-preview="assets/page/scenario_generator/bev_Town01_x203.87_y55.49_normal.webp" aria-pressed="false">
-                  <img src="assets/page/scenario_generator/bev_Town01_x203.87_y55.49_normal.webp" alt="Town01 map preview">
+                  <img src="assets/page/scenario_generator/bev_Town01_x203.87_y55.49_normal.webp" alt="Town01 map preview" loading="lazy">
                   <strong>Town01</strong>
                   <span>Top-down BEV</span>
                 </button>
@@ -1711,23 +1725,23 @@
             <h3>Objects</h3>
             <div class="palette-items">
               <div class="palette-item" data-object="Construction Cone" data-blueprint="static.prop.constructioncone" data-normal="assets/page/scenario_generator/spawned_constructioncone_normal_rgba.webp" data-topdown="assets/page/scenario_generator/spawned_constructioncone_rgba.webp" data-extents="0.1720348298549652,0.1720348298549652,0.2928849756717682">
-                <img src="assets/page/scenario_generator/spawned_constructioncone_normal_rgba.webp" alt="Construction cone">
+                <img src="assets/page/scenario_generator/spawned_constructioncone_normal_rgba.webp" alt="Construction cone" loading="lazy">
                 <span>Construction cone</span>
               </div>
               <div class="palette-item" data-object="Street Barrier" data-blueprint="static.prop.streetbarrier" data-normal="assets/page/scenario_generator/spawned_streetbarrier_normal_rgba.webp" data-topdown="assets/page/scenario_generator/spawned_streetbarrier_rgba.webp" data-extents="0.6074538826942444,0.1858394891023636,0.534582257270813">
-                <img src="assets/page/scenario_generator/spawned_streetbarrier_normal_rgba.webp" alt="Street barrier">
+                <img src="assets/page/scenario_generator/spawned_streetbarrier_normal_rgba.webp" alt="Street barrier" loading="lazy">
                 <span>Street barrier</span>
               </div>
               <div class="palette-item" data-object="Food Cart" data-blueprint="static.prop.foodcart" data-normal="assets/page/scenario_generator/spawned_foodcart_normal_rgba.webp" data-topdown="assets/page/scenario_generator/spawned_foodcart_rgba.webp" data-extents="1.1423381567001343,2.3191988468170166,1.7865543365478516">
-                <img src="assets/page/scenario_generator/spawned_foodcart_normal_rgba.webp" alt="Food cart">
+                <img src="assets/page/scenario_generator/spawned_foodcart_normal_rgba.webp" alt="Food cart" loading="lazy">
                 <span>Food cart</span>
               </div>
               <div class="palette-item" data-object="Trash Bin" data-blueprint="static.prop.bin" data-normal="assets/page/scenario_generator/spawned_bin_normal_rgba.webp" data-topdown="assets/page/scenario_generator/spawned_bin_rgba.webp" data-extents="0.2741018533706665,0.3190794289112091,0.52955162525177">
-                <img src="assets/page/scenario_generator/spawned_bin_normal_rgba.webp" alt="Trash bin">
+                <img src="assets/page/scenario_generator/spawned_bin_normal_rgba.webp" alt="Trash bin" loading="lazy">
                 <span>Trash bin</span>
               </div>
               <div class="palette-item" data-object="Plastic Chair" data-blueprint="static.prop.plasticchair" data-normal="assets/page/scenario_generator/spawned_plasticchair_normal_rgba.webp" data-topdown="assets/page/scenario_generator/spawned_plasticchair_rgba.webp" data-extents="0.36523768305778503,0.37522444128990173,0.6356779336929321">
-                <img src="assets/page/scenario_generator/spawned_plasticchair_normal_rgba.webp" alt="Plastic chair">
+                <img src="assets/page/scenario_generator/spawned_plasticchair_normal_rgba.webp" alt="Plastic chair" loading="lazy">
                 <span>Plastic chair</span>
               </div>
             </div>
@@ -1823,6 +1837,16 @@
       revealItems.forEach(revealElement);
     }
 
+    const heroVideo = document.querySelector('.hero-video');
+    if (heroVideo) {
+      new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) heroVideo.play().catch(() => {});
+          else heroVideo.pause();
+        });
+      }, { threshold: 0.1 }).observe(heroVideo);
+    }
+
     const failureCarouselWrap = document.querySelector('[data-failure-carousel-wrap]');
     const failureCarousel = failureCarouselWrap && failureCarouselWrap.querySelector('[data-failure-carousel]');
     if (failureCarousel) {
@@ -1850,7 +1874,16 @@
           slide.setAttribute('aria-current', isActive ? 'true' : 'false');
           const video = slide.querySelector('video');
           if (video) {
-            if (isActive) { video.currentTime = 0; video.play().catch(() => {}); }
+            if (isActive) {
+              if (!video.querySelector('source') && video.dataset.src) {
+                const source = document.createElement('source');
+                source.src = video.dataset.src;
+                source.type = 'video/mp4';
+                video.appendChild(source);
+                video.load();
+              }
+              video.currentTime = 0; video.play().catch(() => {});
+            }
             else video.pause();
           }
         });
@@ -1949,6 +1982,19 @@
       alignCarouselButtons();
       const carouselResizeObserver = new ResizeObserver(alignCarouselButtons);
       carouselResizeObserver.observe(videoStack);
+
+      const getActiveVideo = () => {
+        const activeSlide = failureSlides[activeFailureIndex];
+        return activeSlide ? activeSlide.querySelector('video') : null;
+      };
+      new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          const video = getActiveVideo();
+          if (!video) return;
+          if (entry.isIntersecting) video.play().catch(() => {});
+          else video.pause();
+        });
+      }, { threshold: 0.1 }).observe(failureCarouselWrap);
     }
 
     document.querySelectorAll('[data-slider]').forEach((block) => {
@@ -1973,6 +2019,7 @@
       };
       const onPointerDown = (event) => {
         dragging = true;
+        overlay.style.willChange = 'clip-path';
         setFromPointer(event);
         if (divider.setPointerCapture) {
           divider.setPointerCapture(event.pointerId);
@@ -1986,6 +2033,7 @@
       };
       const onPointerUp = () => {
         dragging = false;
+        overlay.style.willChange = '';
       };
       divider.addEventListener('pointerdown', onPointerDown);
       divider.addEventListener('pointermove', onPointerMove);
@@ -2794,13 +2842,18 @@
       });
     }
 
-    window.addEventListener('pointermove', moveDrag);
-    window.addEventListener('pointermove', moveRotate);
-    window.addEventListener('pointermove', moveScenePan);
-    window.addEventListener('pointerup', endDrag);
-    window.addEventListener('pointercancel', endDrag);
-    window.addEventListener('pointerup', endScenePan);
-    window.addEventListener('pointercancel', endScenePan);
+    const onPointerMoveGlobal = (event) => {
+      if (draggingEl) moveDrag(event);
+      else if (rotatingEl) moveRotate(event);
+      else if (panningScene) moveScenePan(event);
+    };
+    const onPointerUpGlobal = (event) => {
+      endDrag(event);
+      endScenePan(event);
+    };
+    window.addEventListener('pointermove', onPointerMoveGlobal);
+    window.addEventListener('pointerup', onPointerUpGlobal);
+    window.addEventListener('pointercancel', onPointerUpGlobal);
 
     document.addEventListener('pointerdown', (event) => {
       const isObject = event.target.closest && event.target.closest('.scene-object');
