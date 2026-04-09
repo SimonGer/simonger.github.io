@@ -1023,7 +1023,7 @@
       color: var(--accent-strong);
       cursor: grab;
       user-select: none;
-      touch-action: auto;
+      touch-action: none;
       transform-origin: center;
       opacity: 1;
       z-index: 2;
@@ -2635,9 +2635,6 @@
     };
 
     const startRotate = (el, event) => {
-      if (event.pointerType === 'touch') {
-        return;
-      }
       event.preventDefault();
       cacheSceneMetrics();
       rotatingEl = el;
@@ -2802,9 +2799,7 @@
           startDrag(newObj, ev);
         });
         setSelected(newObj);
-        if (event.pointerType !== 'touch') {
-          startDrag(newObj, event);
-        }
+        startDrag(newObj, event);
         updateRouteExportState();
       });
     });
