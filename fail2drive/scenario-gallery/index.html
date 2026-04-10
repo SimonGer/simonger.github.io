@@ -50,10 +50,19 @@
       font-family: "Newsreader", serif;
       font-size: 17px;
       line-height: 1.7;
+      background: var(--bg);
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      z-index: -1;
       background:
         radial-gradient(circle at 14% 10%, rgba(90, 122, 168, 0.08), transparent 28%),
         radial-gradient(circle at 82% 8%, rgba(74, 95, 127, 0.08), transparent 32%),
         linear-gradient(180deg, var(--bg-soft) 0%, var(--bg) 56%, var(--bg-2) 100%);
+      will-change: transform;
     }
 
     a {
@@ -91,8 +100,8 @@
       border-radius: 999px;
       background: rgba(247, 249, 252, 0.82);
       backdrop-filter: blur(20px) saturate(1.05);
+      -webkit-backdrop-filter: blur(20px) saturate(1.05);
       box-shadow: var(--shadow-soft);
-      transition: box-shadow 0.2s ease;
     }
 
     .back-link {
@@ -122,7 +131,7 @@
       background: rgba(255, 255, 255, 0.85);
       color: var(--accent-strong);
       box-shadow: var(--shadow-xs);
-      transition: transform 0.2s ease, border-color 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
+      transition: transform 0.2s ease, border-color 0.2s ease, background-color 0.2s ease;
     }
 
     .back-link-icon svg {
@@ -166,7 +175,7 @@
       letter-spacing: 0.1em;
       text-transform: uppercase;
       background: rgba(255, 255, 255, 0.44);
-      transition: border-color 0.2s ease, background-color 0.2s ease, color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+      transition: border-color 0.2s ease, background-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
     }
 
     .topbar-link:hover,
@@ -210,14 +219,12 @@
       border-radius: var(--radius);
       background:
         radial-gradient(circle at top right, var(--section-glow), transparent 40%),
-        linear-gradient(180deg, rgba(255, 255, 255, 0.88), rgba(247, 249, 252, 0.96)),
-        var(--surface);
+        linear-gradient(180deg, #ffffff, #f7f9fc);
       box-shadow:
         inset 0 1px 0 rgba(255, 255, 255, 0.84),
         0 18px 38px rgba(12, 18, 34, 0.07);
-      backdrop-filter: blur(18px);
       scroll-margin-top: calc(var(--topbar-height) + 32px);
-      transition: box-shadow 0.2s ease;
+      contain: layout style;
     }
 
     .section::before {
@@ -267,7 +274,7 @@
       box-shadow:
         inset 0 1px 0 rgba(255, 255, 255, 0.86),
         inset 0 0 0 1px rgba(255, 255, 255, 0.26);
-      transition: box-shadow 0.2s ease, border-color 0.2s ease;
+      transition: border-color 0.2s ease;
     }
 
     .scenario-block:hover {
@@ -288,10 +295,12 @@
       display: grid;
       grid-template-columns: repeat(var(--gallery-columns), minmax(0, 1fr));
       gap: 16px;
+      contain: layout style;
     }
 
     .gallery-card {
       min-width: 0;
+      contain: layout style;
     }
 
     .gallery-trigger {
@@ -317,7 +326,7 @@
         linear-gradient(180deg, rgba(255, 255, 255, 0.16), transparent 32%),
         color-mix(in srgb, white 92%, var(--section-accent) 8%);
       box-shadow: 0 10px 24px rgba(12, 18, 34, 0.05);
-      transition: transform 0.24s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.24s ease, border-color 0.24s ease;
+      transition: transform 0.24s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.24s ease;
     }
 
     .gallery-card:hover .gallery-figure,
@@ -368,7 +377,7 @@
       -webkit-backdrop-filter: blur(20px);
       opacity: 0;
       pointer-events: none;
-      transition: opacity 0.28s ease, backdrop-filter 0.28s ease, -webkit-backdrop-filter 0.28s ease;
+      transition: opacity 0.28s ease;
     }
 
     .lightbox.is-open {
@@ -801,9 +810,7 @@
 
       const sectionHead = document.createElement("div");
       sectionHead.className = "section-head";
-      sectionHead.innerHTML = `
-        <h2>${category}</h2>
-      `;
+      sectionHead.innerHTML = `<h2>${category}</h2>`;
       section.appendChild(sectionHead);
 
       const stack = document.createElement("div");
@@ -813,18 +820,13 @@
         const items = groupedByScenario[name] || [];
         const block = document.createElement("article");
         block.className = "scenario-block";
-
         const head = document.createElement("div");
         head.className = "scenario-head";
-        head.innerHTML = `
-          <h3>${humanize(name)}</h3>
-        `;
+        head.innerHTML = `<h3>${humanize(name)}</h3>`;
         block.appendChild(head);
-
         const grid = document.createElement("div");
         grid.className = "gallery-grid";
         const gridFragment = document.createDocumentFragment();
-
         items.forEach((item) => {
           const card = document.createElement("figure");
           card.className = "gallery-card";
@@ -841,7 +843,6 @@
           });
           gridFragment.appendChild(card);
         });
-
         grid.appendChild(gridFragment);
         block.appendChild(grid);
         stack.appendChild(block);
