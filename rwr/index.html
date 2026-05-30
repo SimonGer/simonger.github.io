@@ -189,7 +189,11 @@
     }
     @media (max-width: 660px) { .grid { grid-template-columns: 1fr; } }
     @media (max-width: 480px) {
-      .chip-row { display: flex; flex-wrap: wrap; max-width: none; }
+      .chip-row { grid-template-columns: 1fr 1fr; max-width: none; gap: 8px; }
+      .chip { padding: 5px 18px; font-size: var(--text-xs); }
+    }
+    @media (max-width: 360px) {
+      .chip-row { grid-template-columns: max-content; width: max-content; max-width: 100%; }
     }
 
     figure.card {
@@ -265,7 +269,7 @@
         </div>
         <div class="authors">
           Simon&nbsp;Gerstenecker, Maxim&nbsp;Huber, Andres&nbsp;Neff, Valentin&nbsp;Simonis, Carlo&nbsp;Teufel
-          <span class="sub">Supervised by Chenyu Yang &amp; Prof. Dr. Robert Katzschmann</span>
+          <span class="sub">Supervised by Chenyu&nbsp;Yang &amp; Prof.&nbsp;Dr.&nbsp;Robert&nbsp;Katzschmann</span>
         </div>
       </div>
       <div class="hero-media plain">
