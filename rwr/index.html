@@ -110,14 +110,6 @@
       border: 1px solid var(--line);
       box-shadow: var(--shadow);
     }
-    .hero-media video {
-      width: 100%;
-      display: block;
-      border-radius: 16px;
-      aspect-ratio: 16 / 10;
-      object-fit: cover;
-      background: #ece9e3;
-    }
     /* transparent hero render: let it float on the page, no card framing */
     .hero-media.plain {
       background: transparent;
@@ -198,20 +190,12 @@
       contain: layout style paint;
     }
     .frame { position: relative; background: #1a1a18; aspect-ratio: 16 / 10; overflow: hidden; }
-    .frame.shot { background: #ece9e3; aspect-ratio: 4 / 3; }
     .frame video, .frame img { width: 100%; height: 100%; object-fit: cover; }
-    .frame.shot img { object-fit: contain; }
     figcaption {
       padding: 14px 18px; font-size: var(--text-sm); color: var(--muted);
       font-family: "Space Grotesk", sans-serif;
     }
     figcaption b { color: var(--ink); font-weight: 600; }
-    .tag {
-      position: absolute; top: 10px; left: 10px; z-index: 2;
-      font-family: "Space Grotesk", sans-serif; font-size: 0.62rem;
-      letter-spacing: 0.1em; text-transform: uppercase; color: #fff;
-      background: rgba(24, 24, 20, 0.82); padding: 4px 9px; border-radius: 999px;
-    }
     .speed {
       position: absolute; top: 10px; right: 10px; z-index: 2;
       font-family: "Space Grotesk", sans-serif; font-size: 0.88rem; font-weight: 600;
@@ -221,20 +205,32 @@
       display: grid; place-items: center;
     }
 
-    /* click-to-play for heavy videos */
-    .heavy { cursor: pointer; }
-    .heavy .play {
-      position: absolute; inset: 0; z-index: 1;
-      display: flex; flex-direction: column; gap: 10px;
-      align-items: center; justify-content: center; text-align: center; padding: 18px;
-      color: #fff; background: linear-gradient(180deg, rgba(24,24,20,.28), rgba(24,24,20,.74));
-      font-family: "Space Grotesk", sans-serif; font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase;
-    }
-    .heavy .play .ico { width: 54px; height: 54px; border-radius: 50%; border: 2px solid #fff; display: grid; place-items: center; }
-    .heavy .play .ico::after { content: ""; border-left: 16px solid #fff; border-top: 10px solid transparent; border-bottom: 10px solid transparent; margin-left: 5px; }
-    .heavy.playing .play { display: none; }
+    @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
 
-@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+    /* ---------- lightbox ---------- */
+    .lb-backdrop {
+      position: fixed; inset: 0; z-index: 1000;
+      background: rgba(0, 0, 0, 0.88);
+      display: flex; align-items: center; justify-content: center;
+      cursor: zoom-out;
+    }
+    .lb-backdrop video, .lb-backdrop img {
+      max-width: min(92vw, 1280px);
+      max-height: 88vh;
+      border-radius: 12px;
+      cursor: default;
+      box-shadow: 0 32px 80px rgba(0, 0, 0, 0.6);
+    }
+    .lb-backdrop video { transform: translateZ(0); }
+    .lb-close {
+      position: fixed; top: 18px; right: 22px;
+      font-size: 1.5rem; color: rgba(255, 255, 255, 0.7);
+      cursor: pointer; z-index: 1001;
+      background: none; border: none; padding: 8px; line-height: 1;
+      font-family: "Space Grotesk", sans-serif;
+    }
+    .lb-close:hover { color: #fff; }
+    .frame { cursor: zoom-in; }
   </style>
 </head>
 <body>
@@ -392,6 +388,84 @@
     }, { threshold: 0.25 });
 
     document.querySelectorAll('video').forEach((v) => { srcObserver.observe(v); vio.observe(v); });
+
+    // Lightbox
+    const pageVideos = [...document.querySelectorAll('video')];
+
+    function openLightbox(src, type) {
+      pageVideos.forEach(v => v.pause());
+
+      const bd = document.createElement('div');
+      bd.className = 'lb-backdrop';
+
+      const close = document.createElement('button');
+      close.className = 'lb-close';
+      close.innerHTML = '&#x2715;';
+      close.setAttribute('aria-label', 'Close');
+
+      let media;
+      if (type === 'video') {
+        media = document.createElement('video');
+        media.controls = true;
+        media.loop = true;
+        media.muted = true;
+        media.playsInline = true;
+      } else {
+        media = document.createElement('img');
+        media.src = src;
+        media.alt = '';
+      }
+
+      bd.appendChild(close);
+      bd.appendChild(media);
+      document.body.appendChild(bd);
+      document.documentElement.style.overflow = 'hidden';
+
+      // Set the video source only after the backdrop is laid out, so the
+      // video's compositing layer is created on a settled layout. Setting it
+      // during the insert/reflow makes some engines (Firefox, WebKit) drop the
+      // layer and render a transparent hole over the page.
+      if (type === 'video') {
+        requestAnimationFrame(() => {
+          media.src = src;
+          media.play().catch(() => {});
+        });
+      }
+
+      const cleanup = () => {
+        if (media.tagName === 'VIDEO') media.pause();
+        bd.remove();
+        pageVideos.forEach(v => v.play().catch(() => {}));
+        document.documentElement.style.overflow = '';
+        document.removeEventListener('keydown', onKey);
+      };
+
+      bd.addEventListener('click', (e) => { if (e.target === bd) cleanup(); });
+      close.addEventListener('click', cleanup);
+      const onKey = (e) => { if (e.key === 'Escape') cleanup(); };
+      document.addEventListener('keydown', onKey);
+    }
+
+    document.querySelectorAll('.frame').forEach(frame => {
+      frame.addEventListener('click', () => {
+        const video = frame.querySelector('video');
+        const img = frame.querySelector('img');
+        if (video) {
+          const source = video.querySelector('source');
+          const src = source
+            ? (source.getAttribute('src') || source.dataset.src)
+            : video.getAttribute('src');
+          if (src) openLightbox(src, 'video');
+        } else if (img) {
+          openLightbox(img.src, 'image');
+        }
+      });
+    });
+
+    document.querySelectorAll('.task0-layout img').forEach(img => {
+      img.style.cursor = 'zoom-in';
+      img.addEventListener('click', () => openLightbox(img.src, 'image'));
+    });
   </script>
 </body>
 </html>
