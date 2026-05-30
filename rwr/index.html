@@ -32,7 +32,7 @@
     }
 
     * { box-sizing: border-box; }
-    html { scroll-behavior: smooth; background: #efefec; }
+    html { scroll-behavior: smooth; background: #efefec; -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
     body {
       margin: 0;
       color: var(--ink);
@@ -163,7 +163,16 @@
 
     .divider { height: 1px; background: var(--line); margin: 26px 0 0; }
     .task0-layout { display: flex; gap: 32px; align-items: center; }
-    @media (max-width: 860px) { .task0-layout { flex-direction: column; align-items: stretch; } }
+    .task0-pics { display: flex; gap: 10px; flex-shrink: 0; }
+    .task0-pics img { height: 160px; width: auto; border-radius: 14px; object-fit: cover; }
+    @media (max-width: 860px) {
+      .task0-layout { flex-direction: column; align-items: stretch; }
+      .task0-pics { align-items: flex-start; }
+      /* equal height, natural aspect ratios: flex-grow set to each image's ratio */
+      .task0-pics img { width: 100%; height: auto; min-width: 0; }
+      .task0-pics img:nth-child(1) { flex: 1.265 1 0; } /* parts, landscape 1316x1040 */
+      .task0-pics img:nth-child(2) { flex: 0.743 1 0; } /* assembled, portrait 2693x3624 */
+    }
 
     /* ---------- media cards ---------- */
     .grid { display: grid; gap: 20px; margin-top: 26px; grid-template-columns: repeat(2, minmax(0, 1fr)); }
@@ -179,6 +188,9 @@
       .subhead { margin-bottom: 16px; }
     }
     @media (max-width: 660px) { .grid { grid-template-columns: 1fr; } }
+    @media (max-width: 480px) {
+      .chip-row { display: flex; flex-wrap: wrap; max-width: none; }
+    }
 
     figure.card {
       margin: 0;
@@ -239,7 +251,7 @@
     <!-- ========== HERO ========== -->
     <header class="hero" id="top">
       <div>
-        <p class="eyebrow">Real World Robotics · ETH Zürich · Team 5</p>
+        <p class="eyebrow">Real&nbsp;World&nbsp;Robotics&nbsp;· ETH&nbsp;Zürich&nbsp;· Team&nbsp;5</p>
         <div class="title-group">
           <h1>Dexterous Manipulation with the ORCA Hand</h1>
           <img class="title-logo" src="assets/logo.png" alt="" aria-hidden="true">
@@ -274,9 +286,9 @@
           </div>
           <p style="margin: 0;">Each team assembled their own ORCA Hand from individual parts, including routing the tendons, wiring the electronics, attaching the silicone skin, and calibrating the actuators.</p>
         </div>
-        <div style="display: flex; gap: 10px; flex-shrink: 0;">
-          <img src="assets/task0/orca_parts.jpg" alt="ORCA Hand components" loading="lazy" decoding="async" style="height: 160px; width: auto; border-radius: 14px; object-fit: cover;">
-          <img src="assets/task0/orca_assembled.jpg" alt="Team 5's assembled ORCA Hand" loading="lazy" decoding="async" style="height: 160px; width: auto; border-radius: 14px; object-fit: cover;">
+        <div class="task0-pics">
+          <img src="assets/task0/orca_parts.jpg" alt="ORCA Hand components" loading="lazy" decoding="async">
+          <img src="assets/task0/orca_assembled.jpg" alt="Team 5's assembled ORCA Hand" loading="lazy" decoding="async">
         </div>
       </div>
     </section>
