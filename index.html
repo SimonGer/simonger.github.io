@@ -1,9 +1,448 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <meta http-equiv="refresh" content="0; url=plant2/">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Simon Gerstenecker</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --paper: #f4f1ea;
+      --ink: #16150f;
+      --ink-soft: #52504a;
+      --ink-faint: #928d82;
+      --line: #ddd6c8;
+      --line-soft: #e7e1d5;
+      --accent: #4a7c52;
+      --accent-deep: #2f5436;
+      --sans: "Hanken Grotesk", system-ui, -apple-system, sans-serif;
+      --mono: "JetBrains Mono", monospace;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--paper);
+      color: var(--ink);
+      font-family: var(--sans);
+      line-height: 1.55;
+      -webkit-font-smoothing: antialiased;
+    }
+    ::selection { background: var(--accent); color: var(--paper); }
+
+    /* ---- centered column ---- */
+    .col {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 72px 24px 104px;
+    }
+
+    /* ---- hero ---- */
+    .hero {
+      text-align: center;
+      margin-bottom: 34px;
+    }
+    .hero h1 {
+      font-size: clamp(2.6rem, 8vw, 3.6rem);
+      font-weight: 800;
+      letter-spacing: -0.035em;
+      line-height: 1.0;
+      margin-bottom: 16px;
+    }
+    .bio {
+      font-size: 1.04rem;
+      color: var(--ink-soft);
+      max-width: 56ch;
+      margin: 0 auto 22px;
+      line-height: 1.6;
+    }
+    .links {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .chip {
+      font-family: var(--mono);
+      font-size: 0.71rem;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      text-decoration: none;
+      color: var(--ink);
+      border: 1.5px solid var(--line);
+      border-radius: 40px;
+      padding: 6px 16px;
+      background: rgba(255, 255, 255, 0.5);
+      transition: border-color 0.18s, color 0.18s, transform 0.14s;
+    }
+    .chip { display: inline-flex; align-items: center; gap: 6px; }
+    .chip-icon { display: none; width: 16px; height: 16px; flex: none; }
+    .chip.primary .chip-icon { transform: scale(1.1); }
+    .chip:hover {
+      border-color: var(--accent);
+      color: var(--accent-deep);
+      transform: translateY(-1px);
+    }
+    .chip.primary {
+      background: var(--accent);
+      color: var(--paper);
+      border-color: var(--accent);
+    }
+    .chip.primary:hover {
+      background: var(--accent-deep);
+      border-color: var(--accent-deep);
+      color: #fff;
+    }
+
+    /* ---- dividers ---- */
+    hr {
+      border: none;
+      border-top: 1.5px solid var(--line);
+      margin: 0;
+    }
+    hr.soft {
+      border-top: 1.5px dashed var(--line);
+    }
+
+    /* ---- sections ---- */
+    .section {
+      margin: 30px 0;
+    }
+    .section-head {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 18px;
+    }
+    .section-head h2 {
+      font-size: 1.45rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+/* ---- project cards ---- */
+    .cards {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .card {
+      display: flex;
+      gap: 18px;
+      padding: 14px;
+      align-items: center;
+      background: rgba(255, 255, 255, 0.55);
+      border: 1.5px solid var(--line);
+      border-radius: 14px;
+      text-decoration: none;
+      color: var(--ink);
+      position: relative;
+      transition: transform 0.2s cubic-bezier(0.2, 0.7, 0.3, 1),
+                  box-shadow 0.2s cubic-bezier(0.2, 0.7, 0.3, 1),
+                  border-color 0.2s;
+    }
+    .card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 14px 36px -14px rgba(22, 21, 15, 0.22);
+      border-color: var(--accent);
+    }
+    .thumb {
+      width: 150px;
+      height: 104px;
+      flex: none;
+      border-radius: 8px;
+      overflow: hidden;
+      background: #fefdfb;
+      border: 1px solid var(--line);
+      position: relative;
+    }
+    .thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .thumb.placeholder {
+      background: repeating-linear-gradient(
+        45deg,
+        #e8e3d8 0 8px,
+        #eee9df 8px 16px
+      );
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .thumb.placeholder span {
+      font-family: var(--mono);
+      font-size: 0.65rem;
+      color: var(--ink-faint);
+      padding: 3px 9px;
+      background: rgba(244, 241, 234, 0.85);
+      border-radius: 4px;
+    }
+    .card-body {
+      flex: 1;
+      min-width: 0;
+    }
+    .card-title {
+      font-size: 1.05rem;
+      font-weight: 700;
+      letter-spacing: -0.015em;
+      line-height: 1.25;
+      margin-bottom: -2px;
+    }
+    .card-desc {
+      font-size: 0.87rem;
+      color: var(--ink-soft);
+      line-height: 1.5;
+      margin-bottom: 9px;
+    }
+    .card-authors {
+      font-size: 0.75rem;
+      color: var(--ink-faint);
+      margin-bottom: 1px;
+      line-height: 1.4;
+    }
+    .card-authors strong {
+      color: var(--ink-soft);
+      font-weight: 600;
+    }
+    .tags {
+      display: flex;
+      gap: 5px;
+      flex-wrap: wrap;
+    }
+    .tag {
+      font-family: var(--mono);
+      font-size: 0.65rem;
+      color: var(--ink-faint);
+      border: 1px solid var(--line);
+      border-radius: 30px;
+      padding: 1px 9px;
+    }
+    .card-open {
+      position: absolute;
+      top: 12px;
+      right: 14px;
+      font-family: var(--mono);
+      font-size: 0.67rem;
+      color: var(--accent);
+      letter-spacing: 0.04em;
+      opacity: 0;
+      transition: opacity 0.15s;
+      white-space: nowrap;
+    }
+    .card:hover .card-open { opacity: 1; }
+
+    /* ---- work & education ---- */
+    .we-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 38px;
+    }
+    .we-col-head {
+      font-family: var(--mono);
+      font-size: 0.67rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--ink-faint);
+      margin-bottom: 14px;
+    }
+    .entry { margin-bottom: 16px; }
+    .entry:last-child { margin-bottom: 0; }
+    .entry .role {
+      font-size: 0.92rem;
+      font-weight: 600;
+      line-height: 1.25;
+      letter-spacing: -0.01em;
+    }
+    .entry .org {
+      font-size: 0.84rem;
+      color: var(--ink-soft);
+      margin-top: 1px;
+    }
+    .entry .year {
+      font-family: var(--mono);
+      font-size: 0.67rem;
+      color: var(--ink-faint);
+      margin-top: 3px;
+    }
+
+    /* ---- responsive ---- */
+    .hero-br { display: none; }
+    @media (max-width: 560px) {
+      .links { display: flex; justify-content: center; gap: 12px; max-width: none; margin: 0; }
+      .chip { width: 46px; height: 46px; padding: 0; justify-content: center; border-radius: 50%; }
+      .chip-icon { display: block; width: 26px; height: 26px; }
+      .chip-label { display: none; }
+      .chip.primary { background: rgba(255,255,255,0.5); border-color: var(--line); color: var(--ink); }
+      .chip.primary:hover { background: rgba(255,255,255,0.7); border-color: var(--accent); }
+      .chip.primary .chip-icon { filter: none; }
+      .card { flex-direction: column; gap: 12px; }
+      .thumb { width: 100%; height: 140px; }
+      .we-grid { grid-template-columns: 1fr; gap: 44px; }
+      .hero-sep { display: none; }
+      .hero-br { display: inline; }
+    }
+
+  </style>
 </head>
 <body>
-  <p><a href="plant2/">Go to /plant2</a></p>
+  <div class="col">
+
+    <!-- ============ Hero ============ -->
+    <header class="hero">
+      <h1>Simon Gerstenecker</h1>
+      <p class="bio">Robotics &amp; autonomous driving<br>M.Sc.&nbsp;Student&nbsp;at&nbsp;ETH&nbsp;Zürich<span class="hero-sep"> · </span><br class="hero-br">Research&nbsp;Intern&nbsp;at&nbsp;NVIDIA</p>
+      <div class="links">
+        <a class="chip" href="https://github.com/SimonGer" target="_blank" rel="noopener">
+          <img class="chip-icon" src="assets/GitHub_Invertocat_Black.svg" alt="GitHub">
+          <span class="chip-label">GitHub</span>
+        </a>
+        <a class="chip" href="https://scholar.google.com/citations?user=AybTIUwAAAAJ" target="_blank" rel="noopener">
+          <img class="chip-icon" src="assets/Google_Scholar_logo.svg" alt="Scholar">
+          <span class="chip-label">Scholar</span>
+        </a>
+        <a class="chip" href="https://linkedin.com/in/simon-gerstenecker" target="_blank" rel="noopener">
+          <img class="chip-icon" src="assets/LinkedIn_icon_flat.svg" alt="LinkedIn">
+          <span class="chip-label">LinkedIn</span>
+        </a>
+        <a class="chip primary" href="mailto:sgerstenecke@ethz.ch">
+          <img class="chip-icon" src="assets/email.svg" alt="Email">
+          <span class="chip-label">Email</span>
+        </a>
+      </div>
+    </header>
+
+    <hr>
+
+    <!-- ============ Publications &amp; Projects ============ -->
+    <section class="section">
+      <div class="section-head">
+        <h2>Publications &amp; Projects</h2>
+      </div>
+      <div class="cards">
+
+        <a class="card" href="fail2drive/">
+          <div class="thumb">
+            <img src="fail2drive/assets/page/pairs/1076_00477_cropped.webp" alt="Fail2Drive animals scenario" loading="lazy" style="object-fit:cover;">
+          </div>
+          <div class="card-body">
+            <div class="card-title">Fail2Drive</div>
+            <div class="card-authors"><strong>S.&nbsp;Gerstenecker</strong>, A.&nbsp;Geiger, K.&nbsp;Renz</div>
+            <div class="card-desc">Benchmark for closed-loop driving generalization in CARLA, revealing widespread failure modes across seven state-of-the-art methods.</div>
+            <div class="tags">
+              <span class="tag">Generalization</span>
+              <span class="tag">Benchmark</span>
+              <span class="tag">CARLA</span>
+            </div>
+          </div>
+          <span class="card-open">open →</span>
+        </a>
+
+        <a class="card" href="plant2/">
+          <div class="thumb">
+            <img src="assets/plant.png" alt="PlanT 2.0 accident scenario" loading="lazy" style="height:calc(100% - 12px);width:auto;max-width:none;position:absolute;top:6px;left:50%;transform:translateX(-50%);">
+          </div>
+          <div class="card-body">
+            <div class="card-title">PlanT 2.0</div>
+            <div class="card-authors"><strong>S.&nbsp;Gerstenecker</strong>, A.&nbsp;Geiger, K.&nbsp;Renz</div>
+            <div class="card-desc">Object-based driving planner achieving SOTA in CARLA, with generalization analysis exposing structural failure modes in learned planners.</div>
+            <div class="tags">
+              <span class="tag">Generalization</span>
+              <span class="tag">Planning</span>
+              <span class="tag">CARLA</span>
+            </div>
+          </div>
+          <span class="card-open">open →</span>
+        </a>
+
+        <a class="card" href="https://github.com/autonomousvision/CaRL" target="_blank" rel="noopener">
+          <div class="thumb" style="background:#fefdfb;">
+            <img src="assets/carl_teaser.png" alt="CaRL planning policy teaser" loading="lazy" style="object-fit:contain;mix-blend-mode:multiply;padding:6px;">
+          </div>
+          <div class="card-body">
+            <div class="card-title">CaRL</div>
+            <div class="card-authors">B.&nbsp;Jaeger, D.&nbsp;Dauner, J.&nbsp;Beißwenger, <strong>S.&nbsp;Gerstenecker</strong>, K.&nbsp;Chitta, A.&nbsp;Geiger</div>
+            <div class="card-desc">Scalable reinforcement-learning planning policies trained with simple reward formulations for autonomous driving.</div>
+            <div class="tags">
+              <span class="tag">RL</span>
+              <span class="tag">Planning</span>
+              <span class="tag">CARLA</span>
+            </div>
+          </div>
+          <span class="card-open">open →</span>
+        </a>
+
+        <a class="card" href="rwr/">
+          <div class="thumb">
+            <img src="rwr/assets/logo.png" alt="Real-World Robotics logo" loading="lazy" style="object-fit:contain;padding:6px;mix-blend-mode:multiply;">
+          </div>
+          <div class="card-body">
+            <div class="card-title">Real-World Robotics</div>
+            <div class="card-desc">Sim-to-real reinforcement learning, teleoperated imitation learning, and real-world RL on a physical dexterous robotic hand.</div>
+            <div class="tags">
+              <span class="tag">Sim2Real</span>
+              <span class="tag">Real-world RL</span>
+              <span class="tag">Dexterous Manipulation</span>
+            </div>
+          </div>
+          <span class="card-open">open →</span>
+        </a>
+
+      </div>
+    </section>
+
+    <hr class="soft">
+
+    <!-- ============ Work & Education ============ -->
+    <section class="section">
+      <div class="section-head">
+        <h2>Work &amp; Education</h2>
+      </div>
+      <div class="we-grid">
+        <div>
+          <p class="we-col-head">Experience</p>
+          <div class="entry">
+            <div class="role">Research Intern, Autonomous Driving</div>
+            <div class="org">NVIDIA</div>
+            <div class="year">MAR 2026 —</div>
+          </div>
+          <div class="entry">
+            <div class="role">Research Assistant, AVG</div>
+            <div class="org">University of Tübingen</div>
+            <div class="year">MAY 2025 — AUG 2025</div>
+          </div>
+          <div class="entry">
+            <div class="role">Working Student, AV Research</div>
+            <div class="org">Mercedes-Benz</div>
+            <div class="year">JUN 2024 — MAR 2025</div>
+          </div>
+          <div class="entry">
+            <div class="role">Working Student, Software Testing</div>
+            <div class="org">Bosch</div>
+            <div class="year">NOV 2023 — MAY 2024</div>
+          </div>
+        </div>
+        <div>
+          <p class="we-col-head">Education</p>
+          <div class="entry">
+            <div class="role">M.Sc. Robotics, Systems &amp; Control</div>
+            <div class="org">ETH Zürich</div>
+            <div class="year">SEP 2025 —</div>
+          </div>
+          <div class="entry">
+            <div class="role">B.Sc. Computer Science</div>
+            <div class="org">University of Tübingen</div>
+            <div class="year">2021 — 2025</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
 </body>
 </html>
