@@ -10,20 +10,19 @@
   <link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@8..144,400;8..144,500;8..144,600&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg: #eef3f8;
-      --bg-2: #e7edf4;
-      --ink: #0c1222;
-      --muted: #52607a;
-      --accent: #2f6f8f;
-      --accent-strong: #244e63;
-      --accent-warm: #f07c4a;
-      --card: #ffffff;
-      --line: #d9e1ee;
-      --shadow: 0 18px 48px rgba(12, 18, 34, 0.12);
-      --shadow-soft: 0 12px 30px rgba(12, 18, 34, 0.08);
+      --bg: #ffffff;
+      --ink: #111111;
+      --muted: #6e6e6e;
+      --accent: #4a7a95;
+      --accent-strong: #35586b;
+      --accent-warm: #c1440e;
+      --card: #fafafa;
+      --line: #e0e0e0;
+      --shadow: 0 18px 48px rgba(0, 0, 0, 0.12);
+      --shadow-soft: 0 12px 30px rgba(0, 0, 0, 0.08);
       --radius: 22px;
       --radius-lg: 28px;
-      --text-base: 1.12rem;
+      --text-base: 1.15rem;
       --text-sm: 0.92rem;
       --text-xs: 0.78rem;
       --text-lg: 1.12rem;
@@ -105,9 +104,9 @@
       border-radius: 999px;
       font-family: "Space Grotesk", sans-serif;
       font-size: var(--text-sm);
-      background: rgba(47, 111, 143, 0.12);
+      background: rgba(74, 122, 149, 0.12);
       color: var(--accent-strong);
-      border: 1px solid rgba(47, 111, 143, 0.25);
+      border: 1px solid rgba(74, 122, 149, 0.25);
       width: 180px;
       text-align: center;
     }
@@ -158,7 +157,7 @@
     .button.primary {
       background: var(--accent);
       color: white;
-      box-shadow: 0 12px 24px rgba(47, 111, 143, 0.24);
+      box-shadow: 0 12px 24px rgba(74, 122, 149, 0.24);
     }
 
     .button.secondary {
@@ -193,15 +192,15 @@
       display: block;
       border-radius: 18px;
       object-fit: cover;
-      background: #dfe6ef;
+      background: #e5e5e5;
     }
 
     .media-placeholder {
       border-radius: 18px;
-      border: 1px dashed rgba(47, 111, 143, 0.4);
+      border: 1px dashed rgba(74, 122, 149, 0.4);
       background:
-        linear-gradient(135deg, rgba(47, 111, 143, 0.18), rgba(240, 124, 74, 0.18)),
-        #f9fbff;
+        linear-gradient(135deg, rgba(74, 122, 149, 0.18), rgba(193, 68, 14, 0.18)),
+        #fafafa;
       min-height: 320px;
       display: grid;
       place-items: center;
@@ -263,7 +262,7 @@
       border-radius: 0;
       padding: 6px 0 6px 14px;
       border: 0;
-      border-left: 3px solid rgba(47, 111, 143, 0.45);
+      border-left: 3px solid rgba(74, 122, 149, 0.45);
       box-shadow: none;
       transition: none;
       font-family: "Space Grotesk", sans-serif;
@@ -346,8 +345,8 @@
       border-radius: 16px;
       overflow: hidden;
       height: 210px;
-      background: #eef2f7;
-      border: 1px solid rgba(47, 111, 143, 0.2);
+      background: #f0f0f0;
+      border: 1px solid rgba(74, 122, 149, 0.2);
       user-select: none;
     }
 
@@ -482,8 +481,8 @@
 
     .thumb {
       border-radius: 14px;
-      border: 1px solid rgba(47, 111, 143, 0.25);
-      background: #f8fbff;
+      border: 1px solid rgba(74, 122, 149, 0.25);
+      background: #fafafa;
       height: 128px;
       overflow: hidden;
       position: relative;
@@ -628,13 +627,12 @@
       width: 38px;
       height: 38px;
       border-radius: 999px;
-      border: 1px solid rgba(47, 111, 143, 0.22);
+      border: 1px solid rgba(74, 122, 149, 0.22);
       background: #ffffff;
       color: var(--accent-strong);
       display: grid;
       place-items: center;
       cursor: pointer;
-      box-shadow: 0 2px 10px rgba(12, 18, 34, 0.09);
       transition: transform 0.16s ease, background-color 0.16s ease, color 0.16s ease;
       padding: 0;
       line-height: 0;
@@ -655,7 +653,6 @@
       background: var(--accent-strong);
       color: #ffffff;
       transform: scale(1.07);
-      box-shadow: 0 4px 14px rgba(12, 18, 34, 0.16);
     }
 
     .failure-dots {
@@ -672,7 +669,7 @@
       padding: 0;
       border-radius: 999px;
       border: 0;
-      background: rgba(47, 111, 143, 0.22);
+      background: rgba(74, 122, 149, 0.22);
       cursor: pointer;
       transition: background-color 0.2s ease, transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
       flex-shrink: 0;
@@ -680,7 +677,7 @@
 
     .failure-dot:hover:not([aria-current="true"]),
     .failure-dot:focus-visible {
-      background: rgba(47, 111, 143, 0.45);
+      background: rgba(74, 122, 149, 0.45);
       outline: none;
     }
 
@@ -735,8 +732,8 @@
     .callout {
       padding: 20px;
       border-radius: var(--radius);
-      background: rgba(47, 111, 143, 0.08);
-      border: 1px solid rgba(47, 111, 143, 0.18);
+      background: rgba(74, 122, 149, 0.08);
+      border: 1px solid rgba(74, 122, 149, 0.18);
       font-family: "Space Grotesk", sans-serif;
       font-size: var(--text-sm);
     }
@@ -792,7 +789,7 @@
 
     .map-option {
       border-radius: 16px;
-      border: 1px solid rgba(47, 111, 143, 0.2);
+      border: 1px solid rgba(74, 122, 149, 0.2);
       background: #ffffff;
       overflow: hidden;
       display: grid;
@@ -813,7 +810,7 @@
       object-fit: cover;
       object-position: center center;
       border-radius: 12px;
-      border: 1px solid rgba(47, 111, 143, 0.2);
+      border: 1px solid rgba(74, 122, 149, 0.2);
       display: block;
     }
 
@@ -840,8 +837,8 @@
 
     .map-option.is-active {
       grid-column: 1 / -1;
-      border-color: rgba(240, 124, 74, 0.8);
-      box-shadow: 0 10px 24px rgba(240, 124, 74, 0.18);
+      border-color: rgba(193, 68, 14, 0.8);
+      box-shadow: 0 10px 24px rgba(193, 68, 14, 0.18);
       transform: translateY(-2px);
     }
 
@@ -876,7 +873,7 @@
       inset: 0;
       transform-origin: 0 0;
       background:
-        linear-gradient(120deg, rgba(47, 111, 143, 0.08), rgba(240, 124, 74, 0.08)),
+        linear-gradient(120deg, rgba(74, 122, 149, 0.08), rgba(193, 68, 14, 0.08)),
         var(--scene-map, url("CARLA_BEV.png")) center / cover no-repeat;
       z-index: 0;
       will-change: transform;
@@ -896,7 +893,7 @@
       width: 30px;
       height: 30px;
       border-radius: 8px;
-      border: 1px solid rgba(47, 111, 143, 0.35);
+      border: 1px solid rgba(74, 122, 149, 0.35);
       background: rgba(255, 255, 255, 0.9);
       color: var(--accent-strong);
       font-family: "Space Grotesk", sans-serif;
@@ -1050,7 +1047,7 @@
       height: 20px;
       border-radius: 50%;
       background: #ffffff;
-      border: 2px solid rgba(47, 111, 143, 0.6);
+      border: 2px solid rgba(74, 122, 149, 0.6);
       display: grid;
       place-items: center;
       font-size: 0.65rem;
@@ -1079,11 +1076,11 @@
     }
 
     .scene-object.is-selected {
-      outline: 2px solid rgba(240, 124, 74, 0.8);
+      outline: 2px solid rgba(193, 68, 14, 0.8);
     }
 
     .scene-object.is-selected:not(.is-dragging) {
-      box-shadow: 0 16px 32px rgba(240, 124, 74, 0.25);
+      box-shadow: 0 16px 32px rgba(193, 68, 14, 0.25);
     }
 
     body.delete-cursor-hidden {
@@ -1173,9 +1170,9 @@
     }
 
     .trash-actions .trash-button {
-      border-color: rgba(47, 111, 143, 0.45);
+      border-color: rgba(74, 122, 149, 0.45);
       color: var(--accent-strong);
-      background: rgba(47, 111, 143, 0.08);
+      background: rgba(74, 122, 149, 0.08);
     }
 
     .trash-actions .trash-button:first-child {
@@ -1212,7 +1209,7 @@
 
     .palette-item {
       border-radius: 14px;
-      border: 1px solid rgba(47, 111, 143, 0.2);
+      border: 1px solid rgba(74, 122, 149, 0.2);
       background: white;
       padding: 8px;
       font-family: "Space Grotesk", sans-serif;
@@ -1237,8 +1234,8 @@
       height: 56px;
       object-fit: contain;
       border-radius: 12px;
-      border: 1px solid rgba(47, 111, 143, 0.2);
-      background: #f6f9fc;
+      border: 1px solid rgba(74, 122, 149, 0.2);
+      background: #f5f5f5;
       display: block;
       pointer-events: none;
       user-select: none;
@@ -1568,7 +1565,7 @@
           <div class="thumb"><img src="assets/page/scenarios/kidsonroad.webp" alt="Kids on road scenario" loading="lazy"></div>
         </div>
         <div class="button-row" style="margin-top: 16px;">
-          <a class="button primary" href="./scenario-gallery/">View Gallery</a>
+          <a class="button primary" href="./scenario-gallery/" style="box-shadow: none;">View Gallery</a>
         </div>
       </div>
     </section>
@@ -1794,14 +1791,12 @@
 
     <section class="section" data-reveal>
       <h2>Citation</h2>
-      <pre>@misc{gerstenecker2026fail2drivebenchmarkingclosedloopdriving,
-      title={Fail2Drive: Benchmarking Closed-Loop Driving Generalization}, 
-      author={Simon Gerstenecker and Andreas Geiger and Katrin Renz},
-      year={2026},
-      eprint={2604.08535},
-      archivePrefix={arXiv},
-      primaryClass={cs.RO},
-      url={https://arxiv.org/abs/2604.08535}, 
+      <pre>@inproceedings{Gerstenecker2026Fail2Drive,
+  author    = {Gerstenecker, Simon and Geiger, Andreas and Renz, Katrin},
+  title     = {Fail2Drive: Benchmarking Closed-Loop Driving Generalization},
+  booktitle = {IEEE/RSJ International Conference on Intelligent Robots and Systems (IROS)},
+  year      = {2026},
+  note      = {to appear}
 }</pre>
     </section>
   </div>
