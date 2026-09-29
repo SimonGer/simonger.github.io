@@ -3,21 +3,41 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Fail2Drive Project Page</title>
+  <title>Fail2Drive: Benchmarking Closed-Loop Driving Generalization</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="favicon-32.png" type="image/png" sizes="32x32">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Fail2Drive">
+  <meta property="og:title" content="Fail2Drive: Benchmarking Closed-Loop Driving Generalization">
+  <meta property="og:description" content="Fail2Drive benchmarks closed-loop driving generalization in CARLA with paired in-distribution and generalization routes, analysis, and an extensible toolbox.">
+  <meta property="og:url" content="https://simonger.github.io/fail2drive/">
+  <meta property="og:image" content="https://simonger.github.io/fail2drive/assets/page/og-image.jpg">
+  <meta property="og:image:width" content="1280">
+  <meta property="og:image:height" content="720">
+  <meta property="og:image:alt" content="An elephant crossing a city street in CARLA, one of the unseen Fail2Drive scenarios">
+  <meta name="twitter:card" content="summary_large_image">
   <meta name="description" content="Fail2Drive benchmarks closed-loop driving generalization in CARLA with paired in-distribution and generalization routes, analysis, and an extensible toolbox.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@8..144,400;8..144,500;8..144,600&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&family=Inter+Tight:wght@500;600;700&family=Space+Grotesk:wght@600;700&family=Newsreader:opsz,wght@8..144,400;8..144,500&display=swap" rel="stylesheet">
   <style>
     :root {
       --bg: #ffffff;
-      --ink: #111111;
-      --muted: #6e6e6e;
-      --accent: #4a7a95;
-      --accent-strong: #35586b;
-      --accent-warm: #c1440e;
+      --ink: #1c1917;
+      --text: #44403c;
+      --muted: #78716c;
+      --accent: #1c1917;
+      --accent-strong: #292524;
+      --accent-warm: #1f7a4d;
+      --surface-tint: #f8f6f3;
+      --accent-tint: #eff6f1;
+      --accent-tint-line: rgba(31, 122, 77, 0.2);
+      --font-ui: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+      --font-serif: "Newsreader", Georgia, "Times New Roman", serif;
+      --font-display: "Inter Tight", "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
       --card: #fafafa;
-      --line: #e0e0e0;
+      --line: #e7e5e4;
       --shadow: 0 18px 48px rgba(0, 0, 0, 0.12);
       --shadow-soft: 0 12px 30px rgba(0, 0, 0, 0.08);
       --radius: 22px;
@@ -31,13 +51,15 @@
     * {
       box-sizing: border-box;
     }
-    html { scroll-behavior: smooth; background: var(--bg); }
+    html { scroll-behavior: smooth; background: var(--bg); scrollbar-gutter: stable; }
 
     body {
       margin: 0;
       color: var(--ink);
-      font-family: "Newsreader", serif;
-      font-size: 17px;
+      font-family: var(--font-ui);
+      font-size: 16px;
+      -webkit-font-smoothing: antialiased;
+      font-feature-settings: "cv11", "ss01";
       line-height: 1.6;
     }
 
@@ -55,6 +77,15 @@
       color: var(--accent-warm);
     }
 
+    .section p a {
+      color: var(--ink);
+      font-weight: 500;
+      text-decoration: underline;
+      text-decoration-color: var(--accent-warm);
+      text-decoration-thickness: 1.5px;
+      text-underline-offset: 3px;
+    }
+
     .page {
       max-width: 1100px;
       margin: 0 auto;
@@ -63,31 +94,51 @@
 
     .hero {
       display: grid;
-      grid-template-columns: 1fr 1.6fr;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr);
       gap: 40px;
       align-items: center;
-      padding: 0 0 64px;
+      padding: 0 0 24px;
+    }
+
+    .hero-text {
+      container-type: inline-size;
+    }
+
+    /* On desktop, center the hero in the first screen when there is room. */
+    @media (min-width: 981px) {
+      .hero {
+        min-height: calc(100vh - 32px);
+        min-height: calc(100svh - 32px);
+        align-content: center;
+      }
     }
 
     .eyebrow {
-      font-family: "Space Grotesk", sans-serif;
+      font-family: var(--font-ui);
       font-size: var(--text-xs);
       text-transform: uppercase;
-      letter-spacing: 0.3em;
-      color: var(--muted);
+      letter-spacing: 0.14em;
+      color: var(--accent-warm);
+      font-weight: 600;
       margin: 0 0 12px;
     }
 
     h1 {
-      font-family: "Space Grotesk", sans-serif;
-      font-size: clamp(2.4rem, 3vw + 1.4rem, 3.7rem);
+      font-family: var(--font-ui);
+      font-family: "Space Grotesk", var(--font-display);
+      font-size: clamp(2.2rem, 3vw + 1.2rem, 3.4rem);
+      font-size: clamp(2rem, 12.5cqi, 3.6rem);
+      font-weight: 700;
+      letter-spacing: -0.015em;
       margin: 0 0 16px;
       line-height: 1.05;
     }
 
     .subhead {
-      font-size: var(--text-base);
-      color: var(--muted);
+      font-family: var(--font-serif);
+      font-size: 1.2rem;
+      text-wrap: pretty;
+      color: var(--text);
       line-height: 1.6;
       margin: 0 0 18px;
     }
@@ -102,17 +153,17 @@
     .chip {
       padding: 6px 12px;
       border-radius: 999px;
-      font-family: "Space Grotesk", sans-serif;
+      font-family: var(--font-ui);
       font-size: var(--text-sm);
-      background: rgba(74, 122, 149, 0.12);
+      background: rgba(41, 37, 36, 0.12);
       color: var(--accent-strong);
-      border: 1px solid rgba(74, 122, 149, 0.25);
+      border: 1px solid rgba(41, 37, 36, 0.25);
       width: 180px;
       text-align: center;
     }
 
     .authors {
-      font-family: "Space Grotesk", sans-serif;
+      font-family: var(--font-ui);
       margin-bottom: 20px;
       line-height: 1.6;
       font-size: 1.06rem;
@@ -126,10 +177,12 @@
 
     .authors a {
       color: var(--ink);
+      font-weight: 500;
+      white-space: nowrap;
     }
 
     .authors a:hover {
-      color: var(--accent);
+      color: var(--accent-warm);
     }
 
     .button-row {
@@ -146,8 +199,8 @@
       gap: 8px;
       padding: 12px 20px;
       min-height: 44px;
-      border-radius: 999px;
-      font-family: "Space Grotesk", sans-serif;
+      border-radius: 10px;
+      font-family: var(--font-ui);
       font-weight: 600;
       font-size: var(--text-sm);
       border: 1px solid transparent;
@@ -157,7 +210,6 @@
     .button.primary {
       background: var(--accent);
       color: white;
-      box-shadow: 0 12px 24px rgba(74, 122, 149, 0.24);
     }
 
     .button.secondary {
@@ -187,25 +239,34 @@
 
     .hero-video {
       width: 100%;
-      min-height: 420px;
-      max-height: 620px;
+      height: auto;
+      aspect-ratio: 16 / 9;
       display: block;
       border-radius: 18px;
       object-fit: cover;
       background: #e5e5e5;
     }
 
+    /* Beside the text on desktop, a taller cropped frame; phones keep the full 16:9. */
+    @media (min-width: 981px) {
+      .hero-video {
+        aspect-ratio: auto;
+        min-height: 420px;
+        max-height: 620px;
+      }
+    }
+
     .media-placeholder {
       border-radius: 18px;
-      border: 1px dashed rgba(74, 122, 149, 0.4);
+      border: 1px dashed rgba(41, 37, 36, 0.4);
       background:
-        linear-gradient(135deg, rgba(74, 122, 149, 0.18), rgba(193, 68, 14, 0.18)),
+        linear-gradient(135deg, rgba(41, 37, 36, 0.18), rgba(31, 122, 77, 0.18)),
         #fafafa;
       min-height: 320px;
       display: grid;
       place-items: center;
       text-align: center;
-      font-family: "Space Grotesk", sans-serif;
+      font-family: var(--font-ui);
       color: var(--accent-strong);
       padding: 16px;
     }
@@ -217,29 +278,34 @@
     }
 
     .section {
-      padding: 32px 0 0;
-      content-visibility: auto;
-      contain-intrinsic-size: auto 500px;
+      padding: 80px 0 0;
     }
 
     .section h2 {
-      font-family: "Space Grotesk", sans-serif;
-      font-size: clamp(1.7rem, 2vw + 1rem, 2.3rem);
-      margin: 0 0 12px;
+      font-family: var(--font-ui);
+      font-family: var(--font-display);
+      font-size: clamp(1.6rem, 1.8vw + 1rem, 2.15rem);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      line-height: 1.15;
+      margin: 0 0 18px;
     }
 
     .section h3 {
-      font-family: "Space Grotesk", sans-serif;
-      font-size: clamp(1.22rem, 1.1vw + 0.9rem, 1.7rem);
-      line-height: 1.2;
-      letter-spacing: 0.01em;
+      font-family: var(--font-ui);
+      font-family: var(--font-display);
+      font-size: clamp(1.18rem, 0.9vw + 0.9rem, 1.5rem);
+      font-weight: 600;
+      line-height: 1.25;
+      letter-spacing: -0.01em;
       margin: 0 0 10px;
       color: var(--ink);
     }
 
     .section p {
+      font-family: var(--font-serif);
       margin: 0;
-      color: var(--muted);
+      color: var(--text);
       font-size: var(--text-base);
       line-height: 1.6;
     }
@@ -262,20 +328,21 @@
       border-radius: 0;
       padding: 6px 0 6px 14px;
       border: 0;
-      border-left: 3px solid rgba(74, 122, 149, 0.45);
+      border-left: 3px solid var(--accent-warm);
       box-shadow: none;
       transition: none;
-      font-family: "Space Grotesk", sans-serif;
+      font-family: var(--font-ui);
     }
 
     .card h3 {
       margin: 0 0 8px;
-      color: var(--accent);
+      color: var(--accent-warm);
     }
 
     .card p {
+      font-family: var(--font-serif);
       margin: 0;
-      color: var(--muted);
+      color: var(--text);
       font-size: var(--text-base);
       line-height: 1.6;
     }
@@ -290,21 +357,19 @@
     }
 
     .section h2 + .subpoint-card {
-      padding-top: 12px;
+      padding-top: 8px;
     }
 
     .section p + .subpoint-card {
-      padding-top: 18px;
+      padding-top: 36px;
     }
 
     .subpoint-card > h3 {
-      border-left: 4px solid var(--accent);
-      padding-left: 10px;
-      margin-bottom: 10px;
+      margin-bottom: 12px;
     }
 
     .subpoint-card > p {
-      margin: 0 0 8px;
+      margin: 0 0 20px;
     }
 
     .stat-row {
@@ -319,7 +384,7 @@
       border: 1px solid var(--line);
       border-radius: 18px;
       padding: 16px 20px;
-      font-family: "Space Grotesk", sans-serif;
+      font-family: var(--font-ui);
       font-size: var(--text-sm);
     }
 
@@ -344,9 +409,9 @@
       position: relative;
       border-radius: 16px;
       overflow: hidden;
-      height: 210px;
+      aspect-ratio: 16 / 9;
       background: #f0f0f0;
-      border: 1px solid rgba(74, 122, 149, 0.2);
+      border: 1px solid rgba(41, 37, 36, 0.2);
       user-select: none;
     }
 
@@ -356,11 +421,11 @@
       z-index: 3;
       padding: 4px 8px;
       border-radius: 999px;
-      font-family: "Space Grotesk", sans-serif;
+      font-family: var(--font-ui);
       font-size: 0.7rem;
       letter-spacing: 0.02em;
       color: #ffffff;
-      background: rgba(12, 18, 34, 0.72);
+      background: rgba(28, 25, 23, 0.72);
       pointer-events: none;
       user-select: none;
     }
@@ -407,7 +472,7 @@
     .slider-label {
       display: flex;
       justify-content: space-between;
-      font-family: "Space Grotesk", sans-serif;
+      font-family: var(--font-ui);
       font-size: var(--text-sm);
       color: var(--muted);
     }
@@ -436,7 +501,7 @@
       left: 50%;
       transform: translateX(-50%);
       border-left: 2px solid rgba(255, 255, 255, 0.95);
-      box-shadow: 0 0 0 1px rgba(12, 18, 34, 0.25), 0 2px 8px rgba(12, 18, 34, 0.28);
+      box-shadow: 0 0 0 1px rgba(28, 25, 23, 0.25), 0 2px 8px rgba(28, 25, 23, 0.28);
       pointer-events: none;
     }
 
@@ -448,15 +513,15 @@
       width: 30px;
       height: 30px;
       border-radius: 999px;
-      border: 1px solid rgba(12, 18, 34, 0.2);
+      border: 1px solid rgba(28, 25, 23, 0.2);
       background: #ffffff;
       color: var(--accent-strong);
       display: grid;
       place-items: center;
-      font-family: "Space Grotesk", sans-serif;
+      font-family: var(--font-ui);
       font-size: 0.85rem;
       font-weight: 700;
-      box-shadow: 0 6px 18px rgba(12, 18, 34, 0.24);
+      box-shadow: 0 6px 18px rgba(28, 25, 23, 0.24);
       cursor: ew-resize;
       padding: 0;
     }
@@ -481,14 +546,14 @@
 
     .thumb {
       border-radius: 14px;
-      border: 1px solid rgba(74, 122, 149, 0.25);
+      border: 1px solid rgba(41, 37, 36, 0.25);
       background: #fafafa;
       height: 128px;
       overflow: hidden;
       position: relative;
       display: grid;
       place-items: center;
-      font-family: "Space Grotesk", sans-serif;
+      font-family: var(--font-ui);
       font-size: var(--text-xs);
       color: var(--muted);
     }
@@ -507,7 +572,7 @@
       bottom: 8px;
       padding: 3px 8px;
       border-radius: 999px;
-      background: rgba(12, 18, 34, 0.66);
+      background: rgba(28, 25, 23, 0.66);
       color: #ffffff;
       font-size: 0.68rem;
       letter-spacing: 0.02em;
@@ -516,7 +581,7 @@
     }
 
     .failure-carousel {
-      margin-top: 0;
+      margin-top: 8px;
     }
 
     .video-grid {
@@ -535,7 +600,7 @@
       border-radius: 20px;
       background: #ffffff;
       padding: 14px;
-      box-shadow: 0 20px 50px rgba(12, 18, 34, 0.11), 0 1px 3px rgba(12, 18, 34, 0.06);
+      box-shadow: 0 20px 50px rgba(28, 25, 23, 0.11), 0 1px 3px rgba(28, 25, 23, 0.06);
       contain: layout style paint;
     }
 
@@ -584,7 +649,7 @@
       display: grid;
       gap: 5px;
       padding: 2px 4px 4px;
-      font-family: "Space Grotesk", sans-serif;
+      font-family: var(--font-ui);
       align-content: start;
       opacity: 0;
       visibility: hidden;
@@ -627,7 +692,7 @@
       width: 38px;
       height: 38px;
       border-radius: 999px;
-      border: 1px solid rgba(74, 122, 149, 0.22);
+      border: 1px solid rgba(41, 37, 36, 0.22);
       background: #ffffff;
       color: var(--accent-strong);
       display: grid;
@@ -669,7 +734,7 @@
       padding: 0;
       border-radius: 999px;
       border: 0;
-      background: rgba(74, 122, 149, 0.22);
+      background: rgba(41, 37, 36, 0.22);
       cursor: pointer;
       transition: background-color 0.2s ease, transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
       flex-shrink: 0;
@@ -677,7 +742,7 @@
 
     .failure-dot:hover:not([aria-current="true"]),
     .failure-dot:focus-visible {
-      background: rgba(74, 122, 149, 0.45);
+      background: rgba(41, 37, 36, 0.45);
       outline: none;
     }
 
@@ -693,14 +758,14 @@
     }
 
     .carousel-text span {
-      color: var(--muted);
+      color: var(--text);
       font-size: var(--text-sm);
       line-height: 1.55;
     }
 
     .video-placeholder {
       border-radius: 12px;
-      background: linear-gradient(120deg, rgba(12, 18, 34, 0.1), rgba(12, 18, 34, 0.04));
+      background: linear-gradient(120deg, rgba(28, 25, 23, 0.1), rgba(28, 25, 23, 0.04));
       height: 160px;
       display: grid;
       place-items: center;
@@ -732,9 +797,9 @@
     .callout {
       padding: 20px;
       border-radius: var(--radius);
-      background: rgba(74, 122, 149, 0.08);
-      border: 1px solid rgba(74, 122, 149, 0.18);
-      font-family: "Space Grotesk", sans-serif;
+      background: var(--accent-tint);
+      border: 1px solid var(--accent-tint-line);
+      font-family: var(--font-ui);
       font-size: var(--text-sm);
     }
 
@@ -789,13 +854,13 @@
 
     .map-option {
       border-radius: 16px;
-      border: 1px solid rgba(74, 122, 149, 0.2);
+      border: 1px solid rgba(41, 37, 36, 0.2);
       background: #ffffff;
       overflow: hidden;
       display: grid;
       gap: 8px;
       padding: 8px;
-      font-family: "Space Grotesk", sans-serif;
+      font-family: var(--font-ui);
       font-size: var(--text-sm);
       color: var(--muted);
       text-align: left;
@@ -810,7 +875,7 @@
       object-fit: cover;
       object-position: center center;
       border-radius: 12px;
-      border: 1px solid rgba(74, 122, 149, 0.2);
+      border: 1px solid rgba(41, 37, 36, 0.2);
       display: block;
     }
 
@@ -837,8 +902,8 @@
 
     .map-option.is-active {
       grid-column: 1 / -1;
-      border-color: rgba(193, 68, 14, 0.8);
-      box-shadow: 0 10px 24px rgba(193, 68, 14, 0.18);
+      border-color: rgba(31, 122, 77, 0.8);
+      box-shadow: 0 10px 24px rgba(31, 122, 77, 0.18);
       transform: translateY(-2px);
     }
 
@@ -873,7 +938,7 @@
       inset: 0;
       transform-origin: 0 0;
       background:
-        linear-gradient(120deg, rgba(74, 122, 149, 0.08), rgba(193, 68, 14, 0.08)),
+        linear-gradient(120deg, rgba(41, 37, 36, 0.06), rgba(41, 37, 36, 0.06)),
         var(--scene-map, url("CARLA_BEV.png")) center / cover no-repeat;
       z-index: 0;
       will-change: transform;
@@ -893,10 +958,10 @@
       width: 30px;
       height: 30px;
       border-radius: 8px;
-      border: 1px solid rgba(74, 122, 149, 0.35);
+      border: 1px solid rgba(41, 37, 36, 0.35);
       background: rgba(255, 255, 255, 0.9);
       color: var(--accent-strong);
-      font-family: "Space Grotesk", sans-serif;
+      font-family: var(--font-ui);
       font-size: 0.9rem;
       font-weight: 600;
       line-height: 1;
@@ -986,12 +1051,12 @@
       transform: translate(-50%, -50%);
       padding: 12px 18px;
       border-radius: 999px;
-      background: rgba(12, 18, 34, 0.78);
-      color: #f6f8ff;
-      font-family: "Space Grotesk", sans-serif;
+      background: rgba(28, 25, 23, 0.78);
+      color: #fafaf9;
+      font-family: var(--font-ui);
       font-size: var(--text-sm);
       letter-spacing: 0.02em;
-      box-shadow: 0 10px 24px rgba(12, 18, 34, 0.28);
+      box-shadow: 0 10px 24px rgba(28, 25, 23, 0.28);
       pointer-events: none;
       transition: opacity 0.2s ease, transform 0.2s ease;
       text-align: center;
@@ -1011,7 +1076,7 @@
       box-shadow: none;
       display: grid;
       place-items: center;
-      font-family: "Space Grotesk", sans-serif;
+      font-family: var(--font-ui);
       font-size: var(--text-xs);
       color: var(--accent-strong);
       cursor: grab;
@@ -1047,7 +1112,7 @@
       height: 20px;
       border-radius: 50%;
       background: #ffffff;
-      border: 2px solid rgba(74, 122, 149, 0.6);
+      border: 2px solid rgba(41, 37, 36, 0.6);
       display: grid;
       place-items: center;
       font-size: 0.65rem;
@@ -1076,11 +1141,12 @@
     }
 
     .scene-object.is-selected {
-      outline: 2px solid rgba(193, 68, 14, 0.8);
+      outline: 2px solid rgba(255, 255, 255, 0.95);
+      box-shadow: 0 0 0 4px rgba(28, 25, 23, 0.45);
     }
 
     .scene-object.is-selected:not(.is-dragging) {
-      box-shadow: 0 16px 32px rgba(193, 68, 14, 0.25);
+      box-shadow: 0 0 0 4px rgba(28, 25, 23, 0.45), 0 12px 28px rgba(28, 25, 23, 0.3);
     }
 
     body.delete-cursor-hidden {
@@ -1126,7 +1192,7 @@
       color: #8b1f1f;
       border-radius: 12px;
       padding: 10px 12px;
-      font-family: "Space Grotesk", sans-serif;
+      font-family: var(--font-ui);
       font-size: var(--text-sm);
       cursor: pointer;
       text-align: center;
@@ -1170,9 +1236,9 @@
     }
 
     .trash-actions .trash-button {
-      border-color: rgba(74, 122, 149, 0.45);
+      border-color: rgba(41, 37, 36, 0.45);
       color: var(--accent-strong);
-      background: rgba(74, 122, 149, 0.08);
+      background: rgba(41, 37, 36, 0.08);
     }
 
     .trash-actions .trash-button:first-child {
@@ -1196,9 +1262,9 @@
     }
     .palette h3 {
       margin: 0 0 6px;
-      font-family: "Space Grotesk", sans-serif;
+      font-family: var(--font-display);
       font-size: 1rem;
-      color: var(--accent-strong);
+      color: var(--ink);
     }
 
     .palette-items {
@@ -1209,10 +1275,10 @@
 
     .palette-item {
       border-radius: 14px;
-      border: 1px solid rgba(74, 122, 149, 0.2);
+      border: 1px solid rgba(41, 37, 36, 0.2);
       background: white;
       padding: 8px;
-      font-family: "Space Grotesk", sans-serif;
+      font-family: var(--font-ui);
       font-size: var(--text-sm);
       display: grid;
       grid-template-columns: 56px 1fr;
@@ -1234,7 +1300,7 @@
       height: 56px;
       object-fit: contain;
       border-radius: 12px;
-      border: 1px solid rgba(74, 122, 149, 0.2);
+      border: 1px solid rgba(41, 37, 36, 0.2);
       background: #f5f5f5;
       display: block;
       pointer-events: none;
@@ -1339,12 +1405,13 @@
 
 
     pre {
-      background: #0f1526;
-      color: #eef2ff;
+      background: #1c1917;
+      color: #f5f5f4;
       padding: 18px;
       border-radius: 16px;
       overflow-x: auto;
       font-size: 0.88rem;
+      margin: 0;
     }
 
     code {
@@ -1369,6 +1436,14 @@
         grid-template-columns: 1fr;
       }
 
+      .section {
+        padding-top: 56px;
+      }
+
+      .subpoint-card {
+        padding-top: 40px;
+      }
+
       .content-narrow {
         width: 100%;
       }
@@ -1387,7 +1462,7 @@
 
     @media (max-width: 700px) {
       .failure-carousel {
-        margin-top: 16px;
+        margin-top: 8px;
       }
 
       .video-card-shell {
@@ -1435,12 +1510,12 @@
 <body>
   <div class="page">
     <header class="hero" id="top">
-      <div data-reveal>
-        <p class="eyebrow">Project Page</p>
+      <div class="hero-text" data-reveal>
+        <p class="eyebrow">IROS 2026</p>
         <h1>Fail2Drive: Benchmarking Closed-Loop Driving Generalization</h1>
         <p class="subhead">Fail2Drive is the first CARLA benchmark designed to test closed-loop generalization on truly unseen long-tail scenarios. By pairing each shifted route with an in-distribution counterpart, it exposes substantial hidden failures in current state-of-the-art driving models.</p>
         <div class="authors">
-          <a href="https://linkedin.com/in/simon-gerstenecker">Simon Gerstenecker</a>, <a href="https://cvlibs.net">Andreas Geiger</a>, <a href="https://katrinrenz.de">Katrin Renz</a>
+          <a href="../">Simon Gerstenecker</a>, <a href="https://cvlibs.net">Andreas Geiger</a>, <a href="https://katrinrenz.de">Katrin Renz</a>
           <span>University of Tübingen · Tübingen AI Center</span>
         </div>
         <div class="button-row">
@@ -1467,7 +1542,7 @@
     </header>
 
     <section class="section" data-reveal>
-      <h3>Motivation</h3>
+      <h2>Motivation</h2>
       <p class="content-narrow">
         As autonomous driving moves closer to real-world deployment, the focus is shifting toward rare, long-tail situations that are not represented in the training distribution. This is exactly where generalization matters most.
         Simulators like CARLA are ideal for evaluating these cases in a safe and cost-effective setting. However, current CARLA benchmarks often fail to leverage this potential, as they evaluate on the same scenarios used during training. Fail2Drive addresses this limitation by introducing truly unseen scenarios and establishing a concrete, reproducible basis for evaluating generalization, exposing widespread overfitting in recent CARLA models and making generalization quantifiable.
@@ -1564,7 +1639,7 @@
           <div class="thumb"><img src="assets/page/scenarios/imageon.webp" alt="Image-on scenario" loading="lazy"></div>
           <div class="thumb"><img src="assets/page/scenarios/kidsonroad.webp" alt="Kids on road scenario" loading="lazy"></div>
         </div>
-        <div class="button-row" style="margin-top: 16px;">
+        <div class="button-row" style="margin-top: 20px;">
           <a class="button primary" href="./scenario-gallery/" style="box-shadow: none;">View Gallery</a>
         </div>
       </div>
@@ -1775,7 +1850,7 @@
           Fail2Drive is designed to grow with the community. The toolbox empowers researchers to easily create custom routes and scenarios tailored to their specific needs, as well as expand the existing benchmark. Together, Fail2Drive provides a unified and rigorous testing ground for evaluating generalization in CARLA.
           We welcome code contributions and offer a scenario hub for sharing and discovering interesting scenarios.
         </p>
-        <div class="button-row" style="margin-top: 16px;">
+        <div class="button-row" style="margin-top: 0;">
           <a class="button secondary" href="https://github.com/autonomousvision/fail2drive?tab=contributing-ov-file">Contribute</a>
           <a class="button secondary" href="https://github.com/SimonGer/fail2drive_scenario_hub">Scenario Hub</a>
         </div>
@@ -1951,10 +2026,12 @@
       let swipeStartX = 0;
       let swipeStartY = 0;
       failureCarouselWrap.addEventListener('pointerdown', (e) => {
+        if (e.pointerType !== 'touch') return;
         swipeStartX = e.clientX;
         swipeStartY = e.clientY;
       }, { passive: true });
       failureCarouselWrap.addEventListener('pointerup', (e) => {
+        if (e.pointerType !== 'touch') return;
         const dx = e.clientX - swipeStartX;
         const dy = e.clientY - swipeStartY;
         if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 44) {
